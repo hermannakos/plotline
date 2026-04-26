@@ -304,10 +304,79 @@
       margin-top: auto;
     }
 
+    /* ── Up Next ─────────────────────────────────────── */
+    .up-next-wrap {
+      max-width: 700px;
+      margin: 16px auto 0;
+      padding: 0 16px;
+    }
+    .up-next-card {
+      background: var(--surface);
+      border: 1px solid color-mix(in srgb, var(--universe-color, #888) 40%, var(--border));
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .up-next-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--universe-color, #888);
+      white-space: nowrap;
+    }
+    .up-next-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .up-next-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .up-next-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .up-next-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .up-next-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .up-next-btn:hover { background: var(--surface2); border-color: #555; }
+    .up-next-btn.primary {
+      background: color-mix(in srgb, var(--universe-color, #888) 20%, var(--surface));
+      border-color: var(--universe-color, #888);
+      color: #fff;
+    }
+    .up-next-btn.primary:hover {
+      background: color-mix(in srgb, var(--universe-color, #888) 35%, var(--surface));
+    }
+
     /* ── Responsive ──────────────────────────────────── */
     @media (max-width: 500px) {
       .entries-grid { grid-template-columns: 1fr; }
       .universe-tab { padding: 8px 12px; font-size: 0.82rem; }
+      .up-next-card { flex-wrap: wrap; gap: 10px; }
+      .up-next-actions { width: 100%; gap: 8px; }
+      .up-next-btn { flex: 1; text-align: center; }
     }
   </style>
 </head>
@@ -647,9 +716,70 @@ function countWatchedEpisodes(entryId, episodes, watchedSet) {
   return count;
 }
 
+/* ── Up Next helper ─────────────────────────────────────────────── */
+function getUpNext(entries, watchedSet) {
+  for (const entry of entries) {
+    if (entry.type === "Series" && entry.episodes > 0) {
+      if (!isSeriesWatched(entry.id, entry.episodes, watchedSet)) {
+        for (let i = 1; i <= entry.episodes; i++) {
+          if (!watchedSet.has(`${entry.id}_ep_${i}`)) {
+            return { entry, episode: i };
+          }
+        }
+      }
+    } else {
+      if (!watchedSet.has(entry.id)) {
+        return { entry, episode: null };
+      }
+    }
+  }
+  return null;
+}
+
+/* ── UpNextCard ─────────────────────────────────────────────────── */
+function UpNextCard({ upNext, universe, onMarkWatched, onJumpTo }) {
+  if (!upNext) return null;
+  const { entry, episode } = upNext;
+  const cssVars = { "--universe-color": universe.color };
+  const sub = episode != null
+    ? `Episode ${episode} of ${entry.episodes}`
+    : entry.year;
+  return (
+    <div className="up-next-wrap">
+      <div className="up-next-card" style={cssVars}>
+        <span className="up-next-label">Up Next</span>
+        <div className="up-next-info">
+          <div className="up-next-title">{entry.title}</div>
+          <div className="up-next-sub">{sub}</div>
+        </div>
+        <div className="up-next-actions">
+          <button
+            className="up-next-btn primary"
+            onClick={onMarkWatched}
+            title="Mark as watched"
+          >
+            ✓ Watched
+          </button>
+          <button
+            className="up-next-btn"
+            onClick={onJumpTo}
+            title="Jump to this item in the list"
+          >
+            ↓ Jump
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── EntryCard ──────────────────────────────────────────────────── */
-function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode }) {
+function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, shouldExpand }) {
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (shouldExpand) setExpanded(true);
+  }, [shouldExpand]);
   const isCrossover = entry.type === "Crossover";
   const hasEpisodes = entry.type === "Series" && entry.episodes > 0;
   const showColor = universe.showColors?.[entry.show] ?? universe.color;
@@ -677,6 +807,7 @@ function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode }) {
 
   return (
     <div
+      id={`entry-${entry.id}`}
       className={`entry-card${watched ? " watched" : ""}${isCrossover ? " crossover" : ""}`}
       style={cssVars}
       onClick={handleCardClick}
@@ -748,6 +879,7 @@ function App() {
     for (const uid of Object.keys(UNIVERSES)) m[uid] = loadWatched(uid);
     return m;
   });
+  const [jumpExpandId, setJumpExpandId] = useState(null);
 
   const universe = UNIVERSES[activeId];
   const watched  = watchedMap[activeId];
@@ -766,6 +898,8 @@ function App() {
   const movies   = universe.entries.filter(e => e.type === "Movie").length;
   const series   = universe.entries.filter(e => e.type === "Series").length;
   const crossovers = universe.entries.filter(e => e.type === "Crossover").length;
+
+  const upNext = useMemo(() => getUpNext(universe.entries, watched), [activeId, watched]);
 
   const toggle = useCallback((entry) => {
     setWatchedMap(prev => {
@@ -794,6 +928,25 @@ function App() {
     });
   }, [activeId]);
 
+  const handleUpNextWatched = useCallback(() => {
+    if (!upNext) return;
+    if (upNext.episode != null) {
+      toggleEpisode(upNext.entry.id, upNext.episode);
+    } else {
+      toggle(upNext.entry);
+    }
+  }, [upNext, toggle, toggleEpisode]);
+
+  const handleUpNextJump = useCallback(() => {
+    if (!upNext) return;
+    const el = document.getElementById(`entry-${upNext.entry.id}`);
+    if (el) {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+    }
+    if (upNext.episode != null) setJumpExpandId(upNext.entry.id);
+  }, [upNext]);
+
   return (
     <>
       <div className="app-header">
@@ -808,7 +961,7 @@ function App() {
             key={u.id}
             className={`universe-tab${activeId === u.id ? " active" : ""}`}
             style={{ "--tab-color": u.color }}
-            onClick={() => setActiveId(u.id)}
+            onClick={() => { setActiveId(u.id); setJumpExpandId(null); }}
           >
             <span className="tab-emoji">{u.emoji}</span>
             <span>{u.short}</span>
@@ -838,6 +991,14 @@ function App() {
         <div className="stat-pill">✅ <strong>{doneCount}</strong> watched</div>
       </div>
 
+      {/* Up Next */}
+      <UpNextCard
+        upNext={upNext}
+        universe={universe}
+        onMarkWatched={handleUpNextWatched}
+        onJumpTo={handleUpNextJump}
+      />
+
       {/* Phase groups */}
       <div className="content">
         {[...phases.entries()].map(([phase, entries]) => (
@@ -856,6 +1017,7 @@ function App() {
                   watchedSet={watched}
                   onToggle={toggle}
                   onToggleEpisode={toggleEpisode}
+                  shouldExpand={jumpExpandId === entry.id}
                 />
               ))}
             </div>
