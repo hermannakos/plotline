@@ -216,6 +216,84 @@
     .entry-note { font-size: 0.72rem; color: var(--muted); margin-top: 4px; font-style: italic; }
     .entry-episodes { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
 
+    /* ── Episode Breakdown ───────────────────────────── */
+    .entry-title-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .entry-title-row .entry-title { flex: 1; margin-bottom: 0; }
+    .expand-btn {
+      background: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      line-height: 1.4;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .expand-btn:hover { color: var(--text); border-color: #555; }
+    .ep-progress {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .ep-progress-bar {
+      height: 3px;
+      border-radius: 2px;
+      background: var(--border);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .ep-progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--universe-color, #888);
+      transition: width 0.3s ease;
+    }
+    .episode-list {
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .episode-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    .episode-item:hover { background: var(--border); }
+    .episode-item.ep-watched { opacity: 0.55; }
+    .episode-item.ep-watched .episode-label { text-decoration: line-through; }
+    .episode-check {
+      width: 15px;
+      height: 15px;
+      min-width: 15px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .episode-check.ep-done {
+      background: var(--universe-color, #888);
+      border-color: var(--universe-color, #888);
+    }
+    .ep-checkmark { font-size: 8px; color: #fff; }
+    .episode-label { font-size: 0.78rem; color: var(--text); }
+
     /* ── Footer ──────────────────────────────────────── */
     footer {
       text-align: center;
@@ -553,38 +631,111 @@ function saveWatched(uid, set) {
   } catch {}
 }
 
+/* ── Episode helpers ────────────────────────────────────────────── */
+function isSeriesWatched(entryId, episodes, watchedSet) {
+  if (!episodes) return watchedSet.has(entryId);
+  for (let i = 1; i <= episodes; i++) {
+    if (!watchedSet.has(`${entryId}_ep_${i}`)) return false;
+  }
+  return true;
+}
+
+function countWatchedEpisodes(entryId, episodes, watchedSet) {
+  let count = 0;
+  for (let i = 1; i <= episodes; i++) {
+    if (watchedSet.has(`${entryId}_ep_${i}`)) count++;
+  }
+  return count;
+}
+
 /* ── EntryCard ──────────────────────────────────────────────────── */
-function EntryCard({ entry, universe, watched, onToggle }) {
+function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode }) {
+  const [expanded, setExpanded] = useState(false);
   const isCrossover = entry.type === "Crossover";
+  const hasEpisodes = entry.type === "Series" && entry.episodes > 0;
   const showColor = universe.showColors?.[entry.show] ?? universe.color;
   const cssVars = {
     "--universe-color":  universe.color,
     "--universe-accent": universe.accent,
   };
 
+  const watched = hasEpisodes
+    ? isSeriesWatched(entry.id, entry.episodes, watchedSet)
+    : watchedSet.has(entry.id);
+  const watchedEpCount = hasEpisodes
+    ? countWatchedEpisodes(entry.id, entry.episodes, watchedSet)
+    : 0;
+
+  const handleCardClick = (e) => {
+    if (e.target.closest(".expand-btn") || e.target.closest(".episode-list")) return;
+    onToggle(entry);
+  };
+
+  const handleExpandClick = (e) => {
+    e.stopPropagation();
+    setExpanded(prev => !prev);
+  };
+
   return (
     <div
       className={`entry-card${watched ? " watched" : ""}${isCrossover ? " crossover" : ""}`}
       style={cssVars}
-      onClick={() => onToggle(entry.id)}
+      onClick={handleCardClick}
       title={watched ? "Mark as unwatched" : "Mark as watched"}
     >
       <div className="entry-check">
         {watched && <span className="checkmark">✓</span>}
       </div>
       <div className="entry-body">
-        <div className="entry-title">{entry.title}</div>
+        <div className={hasEpisodes ? "entry-title-row" : ""}>
+          <div className="entry-title">{entry.title}</div>
+          {hasEpisodes && (
+            <button
+              className="expand-btn"
+              onClick={handleExpandClick}
+              title={expanded ? "Collapse episodes" : "Show episodes"}
+            >
+              {expanded ? "▲" : "▼"}
+            </button>
+          )}
+        </div>
         <div className="entry-meta">
           <span className="badge badge-year">{entry.year}</span>
-          {entry.type === "Movie"     && <span className="badge badge-movie">Movie</span>}
-          {entry.type === "Series"    && <span className="badge badge-series">Series</span>}
-          {isCrossover                && <span className="badge badge-crossover" style={{ "--universe-accent": universe.accent }}>Crossover</span>}
+          {entry.type === "Movie"    && <span className="badge badge-movie">Movie</span>}
+          {entry.type === "Series"   && <span className="badge badge-series">Series</span>}
+          {isCrossover               && <span className="badge badge-crossover" style={{ "--universe-accent": universe.accent }}>Crossover</span>}
           {entry.show && entry.show !== "CROSSOVER" && (
             <span className="badge badge-show" style={{ background: showColor + "33", color: showColor }}>{entry.show}</span>
           )}
         </div>
-        {entry.episodes && <div className="entry-episodes">{entry.episodes} episodes</div>}
+        {hasEpisodes && (
+          <>
+            <div className="ep-progress">{watchedEpCount} / {entry.episodes} episodes</div>
+            <div className="ep-progress-bar">
+              <div className="ep-progress-fill" style={{ width: `${Math.round((watchedEpCount / entry.episodes) * 100)}%` }} />
+            </div>
+          </>
+        )}
         {entry.note && <div className="entry-note">{entry.note}</div>}
+        {expanded && hasEpisodes && (
+          <div className="episode-list" onClick={e => e.stopPropagation()}>
+            {Array.from({ length: entry.episodes }, (_, i) => i + 1).map(epNum => {
+              const epWatched = watchedSet.has(`${entry.id}_ep_${epNum}`);
+              return (
+                <div
+                  key={epNum}
+                  className={`episode-item${epWatched ? " ep-watched" : ""}`}
+                  onClick={() => onToggleEpisode(entry.id, epNum)}
+                >
+                  <div className={`episode-check${epWatched ? " ep-done" : ""}`} style={cssVars}>
+                    {epWatched && <span className="ep-checkmark">✓</span>}
+                  </div>
+                  <span className="episode-label">Episode {epNum}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -604,17 +755,39 @@ function App() {
   const phases   = useMemo(() => groupByPhase(universe.entries), [activeId]);
 
   const total    = universe.entries.length;
-  const doneCount= watched.size;
+  const doneCount = universe.entries.filter(e =>
+    e.type === "Series" && e.episodes
+      ? isSeriesWatched(e.id, e.episodes, watched)
+      : watched.has(e.id)
+  ).length;
   const pct      = total === 0 ? 0 : Math.round((doneCount / total) * 100);
 
   const movies   = universe.entries.filter(e => e.type === "Movie").length;
   const series   = universe.entries.filter(e => e.type === "Series").length;
   const crossovers = universe.entries.filter(e => e.type === "Crossover").length;
 
-  const toggle = useCallback((entryId) => {
+  const toggle = useCallback((entry) => {
     setWatchedMap(prev => {
       const set = new Set(prev[activeId]);
-      if (set.has(entryId)) set.delete(entryId); else set.add(entryId);
+      if (entry.type === "Series" && entry.episodes) {
+        const allWatched = isSeriesWatched(entry.id, entry.episodes, set);
+        for (let i = 1; i <= entry.episodes; i++) {
+          const epId = `${entry.id}_ep_${i}`;
+          if (allWatched) set.delete(epId); else set.add(epId);
+        }
+      } else {
+        if (set.has(entry.id)) set.delete(entry.id); else set.add(entry.id);
+      }
+      saveWatched(activeId, set);
+      return { ...prev, [activeId]: set };
+    });
+  }, [activeId]);
+
+  const toggleEpisode = useCallback((entryId, epNum) => {
+    setWatchedMap(prev => {
+      const set = new Set(prev[activeId]);
+      const epId = `${entryId}_ep_${epNum}`;
+      if (set.has(epId)) set.delete(epId); else set.add(epId);
       saveWatched(activeId, set);
       return { ...prev, [activeId]: set };
     });
@@ -679,8 +852,9 @@ function App() {
                   key={entry.id}
                   entry={entry}
                   universe={universe}
-                  watched={watched.has(entry.id)}
+                  watchedSet={watched}
                   onToggle={toggle}
+                  onToggleEpisode={toggleEpisode}
                 />
               ))}
             </div>
