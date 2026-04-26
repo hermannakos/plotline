@@ -633,7 +633,6 @@ function saveWatched(uid, set) {
 
 /* ── Episode helpers ────────────────────────────────────────────── */
 function isSeriesWatched(entryId, episodes, watchedSet) {
-  if (!episodes) return watchedSet.has(entryId);
   for (let i = 1; i <= episodes; i++) {
     if (!watchedSet.has(`${entryId}_ep_${i}`)) return false;
   }
@@ -755,11 +754,13 @@ function App() {
   const phases   = useMemo(() => groupByPhase(universe.entries), [activeId]);
 
   const total    = universe.entries.length;
-  const doneCount = universe.entries.filter(e =>
-    e.type === "Series" && e.episodes
-      ? isSeriesWatched(e.id, e.episodes, watched)
-      : watched.has(e.id)
-  ).length;
+  const doneCount = useMemo(() =>
+    universe.entries.filter(e =>
+      e.type === "Series" && e.episodes
+        ? isSeriesWatched(e.id, e.episodes, watched)
+        : watched.has(e.id)
+    ).length,
+  [universe.entries, watched]);
   const pct      = total === 0 ? 0 : Math.round((doneCount / total) * 100);
 
   const movies   = universe.entries.filter(e => e.type === "Movie").length;
