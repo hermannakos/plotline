@@ -90,18 +90,31 @@ struct ContentView: View {
                                 }
                             },
                             onJump: {
-                                withAnimation {
-                                    if up.episode != nil { expandedEntryId = up.entry.id }
-                                    jumpTargetId = up.entry.id
-                                    proxy.scrollTo(up.entry.id, anchor: .center)
+                                let entryId = up.entry.id
+                                let willExpand = up.episode != nil && expandedEntryId != entryId
+                                if willExpand {
+                                    withAnimation(.easeOut(duration: 0.25)) { expandedEntryId = entryId }
+                                }
+                                jumpTargetId = entryId
+                                // Let the expansion-induced layout change settle before scrolling
+                                // so SwiftUI doesn't race the height change against the scroll target.
+                                Task { @MainActor in
+                                    if willExpand { try? await Task.sleep(for: .milliseconds(80)) }
+                                    withAnimation(.easeInOut(duration: 0.4)) {
+                                        proxy.scrollTo(entryId, anchor: .center)
+                                    }
                                 }
                             }
                         )
                         .padding(.horizontal, 16)
                     }
 
-                    // Phase groups with timeline rail
-                    LazyVStack(spacing: 0) {
+                    // Phase groups with timeline rail.
+                    // Non-lazy VStack so every EntryRow's .id() is registered
+                    // up-front; ScrollViewReader.scrollTo silently no-ops on
+                    // un-instantiated rows, which used to break MCU's deep
+                    // Up Next targets.
+                    VStack(spacing: 0) {
                         ForEach(phases, id: \.0) { (phase, entries) in
                             VStack(alignment: .leading, spacing: 0) {
                                 PhaseHeader(phase: phase, count: entries.count, accent: universe.swiftUIColor)
