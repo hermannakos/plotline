@@ -306,15 +306,22 @@ struct EntryRow: View {
         HStack(alignment: .top, spacing: 14) {
             // Rail
             ZStack(alignment: .top) {
-                Rectangle()
-                    .fill(LinearGradient(
-                        colors: [color.opacity(0.33), Theme.hairline],
-                        startPoint: .top, endPoint: .bottom
-                    ))
-                    .frame(width: 2)
-                    .opacity(0.6)
-                    .padding(.top, isFirst ? 22 : 0)
-                    .padding(.bottom, isLast ? 999 : 0) // collapses to ~0 inside parent height
+                // Vertical rail line, behind the node
+                GeometryReader { geo in
+                    Rectangle()
+                        .fill(LinearGradient(
+                            colors: [color.opacity(0.33), Theme.hairline],
+                            startPoint: .top, endPoint: .bottom
+                        ))
+                        .frame(width: 2)
+                        .opacity(0.6)
+                        .frame(
+                            width: geo.size.width,
+                            height: isLast ? 26 : geo.size.height,
+                            alignment: .top
+                        )
+                        .offset(x: (geo.size.width - 2) / 2, y: isFirst ? 22 : 0)
+                }
 
                 ZStack {
                     Circle()
