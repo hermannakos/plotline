@@ -5,6 +5,7 @@ import SwiftUI
 struct UniverseTab: View {
     let universe: Universe
     let isActive: Bool
+    let progress: Double            // 0…1, fraction of universe watched
     let action: () -> Void
 
     var body: some View {
@@ -17,14 +18,24 @@ struct UniverseTab: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 9)
             .background(
-                RoundedRectangle(cornerRadius: Theme.pillCorner, style: .continuous)
-                    .fill(isActive
-                          ? universe.swiftUIColor.opacity(0.18)
-                          : Theme.surface)
+                GeometryReader { geo in
+                    let baseFill = isActive
+                        ? universe.swiftUIColor.opacity(0.18)
+                        : Theme.surface
+                    let progressFill = universe.swiftUIColor.opacity(isActive ? 0.42 : 0.22)
+
+                    ZStack(alignment: .leading) {
+                        Rectangle().fill(baseFill)
+                        Rectangle()
+                            .fill(progressFill)
+                            .frame(width: geo.size.width * CGFloat(min(max(progress, 0), 1)))
+                            .animation(.easeOut(duration: 0.35), value: progress)
+                    }
+                    .clipShape(Capsule())
+                }
             )
             .overlay(
-                RoundedRectangle(cornerRadius: Theme.pillCorner, style: .continuous)
-                    .stroke(isActive ? universe.swiftUIColor : Theme.border, lineWidth: 2)
+                Capsule().stroke(isActive ? universe.swiftUIColor : Theme.border, lineWidth: 2)
             )
             .foregroundStyle(isActive ? Theme.text : Theme.muted)
             .shadow(color: isActive ? universe.swiftUIColor.opacity(0.35) : .clear, radius: 8)

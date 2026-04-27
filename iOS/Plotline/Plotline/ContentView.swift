@@ -57,7 +57,9 @@ struct ContentView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(store.universes) { u in
-                                UniverseTab(universe: u, isActive: u.id == activeId) {
+                                let total = u.entries.count
+                                let pct = total == 0 ? 0.0 : Double(watchedStore.doneCount(in: u)) / Double(total)
+                                UniverseTab(universe: u, isActive: u.id == activeId, progress: pct) {
                                     withAnimation(.easeOut(duration: 0.18)) {
                                         activeId = u.id
                                         expandedEntryId = nil

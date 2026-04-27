@@ -62,10 +62,28 @@
       white-space: nowrap;
     }
     .universe-tab:hover { border-color: #555; color: var(--text); }
+    .universe-tab {
+      /* Two-stop gradient: solid colored fill up to --tab-progress, base behind it. */
+      background:
+        linear-gradient(
+          to right,
+          color-mix(in srgb, var(--tab-color, #888) 22%, var(--surface)) 0%,
+          color-mix(in srgb, var(--tab-color, #888) 22%, var(--surface)) var(--tab-progress, 0%),
+          var(--surface) var(--tab-progress, 0%),
+          var(--surface) 100%
+        );
+    }
     .universe-tab.active {
       color: #fff;
       border-color: var(--tab-color, #888);
-      background: color-mix(in srgb, var(--tab-color, #888) 18%, var(--surface));
+      background:
+        linear-gradient(
+          to right,
+          color-mix(in srgb, var(--tab-color, #888) 42%, var(--surface)) 0%,
+          color-mix(in srgb, var(--tab-color, #888) 42%, var(--surface)) var(--tab-progress, 0%),
+          color-mix(in srgb, var(--tab-color, #888) 18%, var(--surface)) var(--tab-progress, 0%),
+          color-mix(in srgb, var(--tab-color, #888) 18%, var(--surface)) 100%
+        );
       box-shadow: 0 0 14px color-mix(in srgb, var(--tab-color, #888) 35%, transparent);
     }
     .tab-emoji { font-size: 1.1rem; }
@@ -604,6 +622,22 @@ function App() {
   const entries  = universe?.entries ?? [];
   const phases   = useMemo(() => groupByPhase(entries), [entries]);
 
+  // Per-universe % complete, used to draw a fill on each tab pill.
+  const tabProgress = useMemo(() => {
+    if (!universes) return {};
+    const m = {};
+    for (const u of Object.values(universes)) {
+      const w = watchedMap[u.id] ?? new Set();
+      const done = u.entries.filter(e =>
+        e.type === "Series" && e.episodes
+          ? isSeriesWatched(e.id, e.episodes, w)
+          : w.has(e.id)
+      ).length;
+      m[u.id] = u.entries.length === 0 ? 0 : (done / u.entries.length) * 100;
+    }
+    return m;
+  }, [universes, watchedMap]);
+
   const total    = entries.length;
   const doneCount = useMemo(() =>
     entries.filter(e =>
@@ -682,7 +716,7 @@ function App() {
           <button
             key={u.id}
             className={`universe-tab${activeId === u.id ? " active" : ""}`}
-            style={{ "--tab-color": u.color }}
+            style={{ "--tab-color": u.color, "--tab-progress": `${tabProgress[u.id] ?? 0}%` }}
             onClick={() => { setActiveId(u.id); setJumpExpandId(null); }}
           >
             <span className="tab-emoji">{u.emoji}</span>
