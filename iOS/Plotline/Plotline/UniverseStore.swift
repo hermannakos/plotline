@@ -50,7 +50,7 @@ final class UniverseStore {
         let decoder = JSONDecoder()
         let dict = try decoder.decode([String: Universe].self, from: data)
         // Preserve the canonical order used by the web app.
-        let order = ["mcu", "dceu", "monsterverse", "starwars", "arrowverse"]
+        let order = ["mcu", "dceu", "monsterverse", "starwars", "arrowverse", "startrek"]
         let ordered = order.compactMap { dict[$0] } + dict.values.filter { !order.contains($0.id) }
         self.universes = ordered
         self.byId = Dictionary(uniqueKeysWithValues: ordered.map { ($0.id, $0) })
