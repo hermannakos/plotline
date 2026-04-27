@@ -599,28 +599,26 @@ function App() {
       .catch(err => setLoadError(err.message));
   }, []);
 
-  if (loadError) return <div style={{ padding: 40, textAlign: "center", color: "var(--muted)" }}>Failed to load: {loadError}</div>;
-  if (!universes) return <div style={{ padding: 40, textAlign: "center", color: "var(--muted)" }}>Loading…</div>;
+  const universe = universes?.[activeId];
+  const watched  = watchedMap[activeId] ?? new Set();
+  const entries  = universe?.entries ?? [];
+  const phases   = useMemo(() => groupByPhase(entries), [entries]);
 
-  const universe = universes[activeId];
-  const watched  = watchedMap[activeId];
-  const phases   = useMemo(() => groupByPhase(universe.entries), [activeId]);
-
-  const total    = universe.entries.length;
+  const total    = entries.length;
   const doneCount = useMemo(() =>
-    universe.entries.filter(e =>
+    entries.filter(e =>
       e.type === "Series" && e.episodes
         ? isSeriesWatched(e.id, e.episodes, watched)
         : watched.has(e.id)
     ).length,
-  [universe.entries, watched]);
+  [entries, watched]);
   const pct      = total === 0 ? 0 : Math.round((doneCount / total) * 100);
 
-  const movies   = universe.entries.filter(e => e.type === "Movie").length;
-  const series   = universe.entries.filter(e => e.type === "Series").length;
-  const crossovers = universe.entries.filter(e => e.type === "Crossover").length;
+  const movies   = entries.filter(e => e.type === "Movie").length;
+  const series   = entries.filter(e => e.type === "Series").length;
+  const crossovers = entries.filter(e => e.type === "Crossover").length;
 
-  const upNext = useMemo(() => getUpNext(universe.entries, watched), [activeId, watched]);
+  const upNext = useMemo(() => getUpNext(entries, watched), [entries, watched]);
 
   const toggle = useCallback((entry) => {
     setWatchedMap(prev => {
@@ -667,6 +665,9 @@ function App() {
     }
     if (upNext.episode != null) setJumpExpandId(upNext.entry.id);
   }, [upNext]);
+
+  if (loadError) return <div style={{ padding: 40, textAlign: "center", color: "var(--muted)" }}>Failed to load: {loadError}</div>;
+  if (!universes || !universe) return <div style={{ padding: 40, textAlign: "center", color: "var(--muted)" }}>Loading…</div>;
 
   return (
     <>
