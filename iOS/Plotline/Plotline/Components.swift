@@ -304,25 +304,21 @@ struct EntryRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
-            // Rail
+            // Rail — both line and node share the same 22pt column,
+            // .center alignment guarantees they share a vertical axis.
             ZStack(alignment: .top) {
-                // Vertical rail line, behind the node
-                GeometryReader { geo in
-                    Rectangle()
-                        .fill(LinearGradient(
-                            colors: [color.opacity(0.33), Theme.hairline],
-                            startPoint: .top, endPoint: .bottom
-                        ))
-                        .frame(width: 2)
-                        .opacity(0.6)
-                        .frame(
-                            width: geo.size.width,
-                            height: isLast ? 26 : geo.size.height,
-                            alignment: .top
-                        )
-                        .offset(x: (geo.size.width - 2) / 2, y: isFirst ? 22 : 0)
-                }
+                // Vertical rail line behind the node
+                Rectangle()
+                    .fill(LinearGradient(
+                        colors: [color.opacity(0.33), Theme.hairline],
+                        startPoint: .top, endPoint: .bottom
+                    ))
+                    .frame(width: 2)
+                    .opacity(0.6)
+                    .padding(.top, isFirst ? 22 : 0)
+                    .frame(maxHeight: isLast ? 26 : .infinity, alignment: .top)
 
+                // Node
                 ZStack {
                     Circle()
                         .fill(isComplete ? color : Theme.bg)
@@ -339,7 +335,7 @@ struct EntryRow: View {
                 .shadow(color: isComplete ? color.opacity(0.5) : .clear, radius: 5)
                 .padding(.top, 18)
             }
-            .frame(width: 22)
+            .frame(width: 22, alignment: .center)
 
             // Card
             VStack(alignment: .leading, spacing: 0) {
