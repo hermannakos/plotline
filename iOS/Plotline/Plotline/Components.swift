@@ -185,6 +185,7 @@ private extension Color {
     }
 }
 
+
 private struct HeroStat: View {
     let n: Int
     let label: String

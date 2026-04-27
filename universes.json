@@ -335,8 +335,15 @@
         "episodes": 9
       },
       {
+        "id": "mcu_48",
+        "title": "Captain America: Brave New World",
+        "year": 2025,
+        "type": "Movie",
+        "phase": "Phase 5"
+      },
+      {
         "id": "mcu_46",
-        "title": "Daredevil: Born Again",
+        "title": "Daredevil: Born Again — Season 1",
         "year": 2025,
         "type": "Series",
         "phase": "Phase 5",
@@ -348,6 +355,29 @@
         "year": 2025,
         "type": "Movie",
         "phase": "Phase 5"
+      },
+      {
+        "id": "mcu_49",
+        "title": "The Fantastic Four: First Steps",
+        "year": 2025,
+        "type": "Movie",
+        "phase": "Phase 6"
+      },
+      {
+        "id": "mcu_50",
+        "title": "Ironheart",
+        "year": 2025,
+        "type": "Series",
+        "phase": "Phase 6",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_51",
+        "title": "Daredevil: Born Again — Season 2",
+        "year": 2026,
+        "type": "Series",
+        "phase": "Phase 6",
+        "episodes": 9
       }
     ]
   },
@@ -569,6 +599,14 @@
     "description": "A galaxy far, far away",
     "entries": [
       {
+        "id": "sw_23",
+        "title": "The Acolyte",
+        "year": 2024,
+        "type": "Series",
+        "phase": "High Republic Era",
+        "episodes": 8
+      },
+      {
         "id": "sw_1",
         "title": "The Phantom Menace",
         "year": 1999,
@@ -591,11 +629,59 @@
       },
       {
         "id": "sw_4",
-        "title": "The Clone Wars (Series)",
+        "title": "The Clone Wars — Season 1",
         "year": 2008,
         "type": "Series",
         "phase": "Clone Wars Era",
-        "episodes": 133
+        "episodes": 22
+      },
+      {
+        "id": "sw_24",
+        "title": "The Clone Wars — Season 2",
+        "year": 2009,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 22
+      },
+      {
+        "id": "sw_25",
+        "title": "The Clone Wars — Season 3",
+        "year": 2010,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 22
+      },
+      {
+        "id": "sw_26",
+        "title": "The Clone Wars — Season 4",
+        "year": 2011,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 22
+      },
+      {
+        "id": "sw_27",
+        "title": "The Clone Wars — Season 5",
+        "year": 2012,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 20
+      },
+      {
+        "id": "sw_28",
+        "title": "The Clone Wars — Season 6",
+        "year": 2014,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 13
+      },
+      {
+        "id": "sw_29",
+        "title": "The Clone Wars — Season 7",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 12
       },
       {
         "id": "sw_5",
@@ -606,11 +692,27 @@
       },
       {
         "id": "sw_6",
-        "title": "Bad Batch",
+        "title": "Bad Batch — Season 1",
         "year": 2021,
         "type": "Series",
         "phase": "Clone Wars Era",
-        "episodes": 48
+        "episodes": 16
+      },
+      {
+        "id": "sw_30",
+        "title": "Bad Batch — Season 2",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 16
+      },
+      {
+        "id": "sw_31",
+        "title": "Bad Batch — Season 3",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 15
       },
       {
         "id": "sw_7",
@@ -629,19 +731,51 @@
       },
       {
         "id": "sw_9",
-        "title": "Andor",
+        "title": "Andor — Season 1",
         "year": 2022,
         "type": "Series",
         "phase": "Galactic Empire Era",
         "episodes": 12
       },
       {
+        "id": "sw_32",
+        "title": "Andor — Season 2",
+        "year": 2025,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 12
+      },
+      {
         "id": "sw_10",
-        "title": "Rebels",
+        "title": "Rebels — Season 1",
         "year": 2014,
         "type": "Series",
         "phase": "Galactic Empire Era",
-        "episodes": 75
+        "episodes": 15
+      },
+      {
+        "id": "sw_33",
+        "title": "Rebels — Season 2",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 22
+      },
+      {
+        "id": "sw_34",
+        "title": "Rebels — Season 3",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 22
+      },
+      {
+        "id": "sw_35",
+        "title": "Rebels — Season 4",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 16
       },
       {
         "id": "sw_11",
@@ -673,11 +807,19 @@
       },
       {
         "id": "sw_15",
-        "title": "The Mandalorian S1–2",
+        "title": "The Mandalorian — Season 1",
         "year": 2019,
         "type": "Series",
         "phase": "New Republic Era",
-        "episodes": 16
+        "episodes": 8
+      },
+      {
+        "id": "sw_36",
+        "title": "The Mandalorian — Season 2",
+        "year": 2020,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 8
       },
       {
         "id": "sw_16",
@@ -689,7 +831,7 @@
       },
       {
         "id": "sw_17",
-        "title": "The Mandalorian S3",
+        "title": "The Mandalorian — Season 3",
         "year": 2023,
         "type": "Series",
         "phase": "New Republic Era",
@@ -1536,6 +1678,492 @@
         "episodes": 13,
         "show": "The Flash",
         "note": "eps 1–13 · SERIES FINALE"
+      }
+    ]
+  },
+  "startrek": {
+    "id": "startrek",
+    "name": "Star Trek Universe",
+    "short": "ST",
+    "color": "#1A2A8F",
+    "accent": "#FFD700",
+    "emoji": "🖖",
+    "description": "Boldly go where no one has gone before",
+    "entries": [
+      {
+        "id": "st_1",
+        "title": "Star Trek: The Original Series — Season 1",
+        "year": 1966,
+        "type": "Series",
+        "phase": "Classic Trek (1966–1991)",
+        "episodes": 29
+      },
+      {
+        "id": "st_2",
+        "title": "Star Trek: The Original Series — Season 2",
+        "year": 1967,
+        "type": "Series",
+        "phase": "Classic Trek (1966–1991)",
+        "episodes": 26
+      },
+      {
+        "id": "st_3",
+        "title": "Star Trek: The Original Series — Season 3",
+        "year": 1968,
+        "type": "Series",
+        "phase": "Classic Trek (1966–1991)",
+        "episodes": 24
+      },
+      {
+        "id": "st_4",
+        "title": "Star Trek: The Animated Series — Season 1",
+        "year": 1973,
+        "type": "Series",
+        "phase": "Classic Trek (1966–1991)",
+        "episodes": 16
+      },
+      {
+        "id": "st_5",
+        "title": "Star Trek: The Animated Series — Season 2",
+        "year": 1974,
+        "type": "Series",
+        "phase": "Classic Trek (1966–1991)",
+        "episodes": 6
+      },
+      {
+        "id": "st_6",
+        "title": "Star Trek: The Motion Picture",
+        "year": 1979,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_7",
+        "title": "Star Trek II: The Wrath of Khan",
+        "year": 1982,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_8",
+        "title": "Star Trek III: The Search for Spock",
+        "year": 1984,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_9",
+        "title": "Star Trek IV: The Voyage Home",
+        "year": 1986,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_10",
+        "title": "Star Trek V: The Final Frontier",
+        "year": 1989,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_11",
+        "title": "Star Trek VI: The Undiscovered Country",
+        "year": 1991,
+        "type": "Movie",
+        "phase": "Classic Trek (1966–1991)"
+      },
+      {
+        "id": "st_12",
+        "title": "Star Trek: The Next Generation — Season 1",
+        "year": 1987,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_13",
+        "title": "Star Trek: The Next Generation — Season 2",
+        "year": 1988,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 22
+      },
+      {
+        "id": "st_14",
+        "title": "Star Trek: The Next Generation — Season 3",
+        "year": 1989,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_15",
+        "title": "Star Trek: The Next Generation — Season 4",
+        "year": 1990,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_16",
+        "title": "Star Trek: The Next Generation — Season 5",
+        "year": 1991,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_17",
+        "title": "Star Trek: The Next Generation — Season 6",
+        "year": 1992,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_18",
+        "title": "Star Trek: The Next Generation — Season 7",
+        "year": 1993,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_19",
+        "title": "Star Trek: Generations",
+        "year": 1994,
+        "type": "Movie",
+        "phase": "The Next Generation Era (1987–2002)"
+      },
+      {
+        "id": "st_20",
+        "title": "Star Trek: First Contact",
+        "year": 1996,
+        "type": "Movie",
+        "phase": "The Next Generation Era (1987–2002)"
+      },
+      {
+        "id": "st_21",
+        "title": "Star Trek: Insurrection",
+        "year": 1998,
+        "type": "Movie",
+        "phase": "The Next Generation Era (1987–2002)"
+      },
+      {
+        "id": "st_22",
+        "title": "Star Trek: Nemesis",
+        "year": 2002,
+        "type": "Movie",
+        "phase": "The Next Generation Era (1987–2002)"
+      },
+      {
+        "id": "st_23",
+        "title": "Star Trek: Deep Space Nine — Season 1",
+        "year": 1993,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 20
+      },
+      {
+        "id": "st_24",
+        "title": "Star Trek: Deep Space Nine — Season 2",
+        "year": 1993,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_25",
+        "title": "Star Trek: Deep Space Nine — Season 3",
+        "year": 1994,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_26",
+        "title": "Star Trek: Deep Space Nine — Season 4",
+        "year": 1995,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_27",
+        "title": "Star Trek: Deep Space Nine — Season 5",
+        "year": 1996,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_28",
+        "title": "Star Trek: Deep Space Nine — Season 6",
+        "year": 1997,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_29",
+        "title": "Star Trek: Deep Space Nine — Season 7",
+        "year": 1998,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_30",
+        "title": "Star Trek: Voyager — Season 1",
+        "year": 1995,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 16
+      },
+      {
+        "id": "st_31",
+        "title": "Star Trek: Voyager — Season 2",
+        "year": 1995,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_32",
+        "title": "Star Trek: Voyager — Season 3",
+        "year": 1996,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_33",
+        "title": "Star Trek: Voyager — Season 4",
+        "year": 1997,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_34",
+        "title": "Star Trek: Voyager — Season 5",
+        "year": 1998,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_35",
+        "title": "Star Trek: Voyager — Season 6",
+        "year": 1999,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 26
+      },
+      {
+        "id": "st_36",
+        "title": "Star Trek: Voyager — Season 7",
+        "year": 2000,
+        "type": "Series",
+        "phase": "The Next Generation Era (1987–2002)",
+        "episodes": 24
+      },
+      {
+        "id": "st_37",
+        "title": "Star Trek: Enterprise — Season 1",
+        "year": 2001,
+        "type": "Series",
+        "phase": "Enterprise (2001–2005)",
+        "episodes": 26
+      },
+      {
+        "id": "st_38",
+        "title": "Star Trek: Enterprise — Season 2",
+        "year": 2002,
+        "type": "Series",
+        "phase": "Enterprise (2001–2005)",
+        "episodes": 26
+      },
+      {
+        "id": "st_39",
+        "title": "Star Trek: Enterprise — Season 3",
+        "year": 2003,
+        "type": "Series",
+        "phase": "Enterprise (2001–2005)",
+        "episodes": 24
+      },
+      {
+        "id": "st_40",
+        "title": "Star Trek: Enterprise — Season 4",
+        "year": 2004,
+        "type": "Series",
+        "phase": "Enterprise (2001–2005)",
+        "episodes": 22
+      },
+      {
+        "id": "st_41",
+        "title": "Star Trek",
+        "year": 2009,
+        "type": "Movie",
+        "phase": "Kelvin Timeline (2009–2016)"
+      },
+      {
+        "id": "st_42",
+        "title": "Star Trek Into Darkness",
+        "year": 2013,
+        "type": "Movie",
+        "phase": "Kelvin Timeline (2009–2016)"
+      },
+      {
+        "id": "st_43",
+        "title": "Star Trek Beyond",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Kelvin Timeline (2009–2016)"
+      },
+      {
+        "id": "st_44",
+        "title": "Star Trek: Discovery — Season 1",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 15
+      },
+      {
+        "id": "st_45",
+        "title": "Star Trek: Discovery — Season 2",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 14
+      },
+      {
+        "id": "st_46",
+        "title": "Star Trek: Picard — Season 1",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_47",
+        "title": "Star Trek: Lower Decks — Season 1",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_48",
+        "title": "Star Trek: Discovery — Season 3",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 13
+      },
+      {
+        "id": "st_49",
+        "title": "Star Trek: Prodigy — Season 1",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 20
+      },
+      {
+        "id": "st_50",
+        "title": "Star Trek: Discovery — Season 4",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 13
+      },
+      {
+        "id": "st_51",
+        "title": "Star Trek: Lower Decks — Season 2",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_52",
+        "title": "Star Trek: Picard — Season 2",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_53",
+        "title": "Star Trek: Lower Decks — Season 3",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_54",
+        "title": "Star Trek: Strange New Worlds — Season 1",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_55",
+        "title": "Star Trek: Picard — Season 3",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_56",
+        "title": "Star Trek: Lower Decks — Season 4",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_57",
+        "title": "Star Trek: Strange New Worlds — Season 2",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_58",
+        "title": "Star Trek: Discovery — Season 5",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_59",
+        "title": "Star Trek: Lower Decks — Season 5",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
+      },
+      {
+        "id": "st_60",
+        "title": "Star Trek: Prodigy — Season 2",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 20
+      },
+      {
+        "id": "st_61",
+        "title": "Star Trek: Strange New Worlds — Season 3",
+        "year": 2025,
+        "type": "Series",
+        "phase": "Streaming Era (2017–2025)",
+        "episodes": 10
       }
     ]
   }
