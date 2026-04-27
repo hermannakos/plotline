@@ -1,50 +1,89 @@
 import SwiftUI
 
-// MARK: - Universe tab pill
+// MARK: - Plotline mark (neon path used in icon + splash)
+
+struct PlotlineMark: View {
+    var size: CGFloat = 22
+    private let pts: [CGPoint] = [
+        .init(x: 0.215, y: 0.742),
+        .init(x: 0.371, y: 0.547),
+        .init(x: 0.547, y: 0.625),
+        .init(x: 0.605, y: 0.410),
+        .init(x: 0.781, y: 0.293)
+    ]
+
+    var body: some View {
+        Canvas { ctx, s in
+            let path = Path { p in
+                let mapped = pts.map { CGPoint(x: $0.x * s.width, y: $0.y * s.height) }
+                p.move(to: mapped[0])
+                for pt in mapped.dropFirst() { p.addLine(to: pt) }
+            }
+            // Outer glow
+            ctx.addFilter(.blur(radius: s.width * 0.06))
+            ctx.stroke(path, with: .color(Theme.neon.opacity(0.5)),
+                       style: StrokeStyle(lineWidth: s.width * 0.08, lineCap: .round, lineJoin: .round))
+            ctx.addFilter(.blur(radius: 0))
+            // Main stroke
+            ctx.stroke(path, with: .linearGradient(
+                Gradient(colors: [Theme.neonDeep, Theme.neonGlow]),
+                startPoint: .init(x: 0, y: s.height),
+                endPoint: .init(x: s.width, y: 0)
+            ), style: StrokeStyle(lineWidth: s.width * 0.055, lineCap: .round, lineJoin: .round))
+        }
+        .frame(width: size, height: size)
+    }
+}
+
+// MARK: - Universe tab pill (with progress ring)
 
 struct UniverseTab: View {
     let universe: Universe
     let isActive: Bool
-    let progress: Double            // 0…1, fraction of universe watched
+    let progress: Double
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: 8) {
-                Text(universe.emoji).font(.system(size: 17))
-                Text(universe.short)
-                    .font(.system(size: 13, weight: .semibold))
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 9)
-            .background(
-                GeometryReader { geo in
-                    let baseFill = isActive
-                        ? universe.swiftUIColor.opacity(0.18)
-                        : Theme.surface
-                    let progressFill = universe.swiftUIColor.opacity(isActive ? 0.42 : 0.22)
-
-                    ZStack(alignment: .leading) {
-                        Rectangle().fill(baseFill)
-                        Rectangle()
-                            .fill(progressFill)
-                            .frame(width: geo.size.width * CGFloat(min(max(progress, 0), 1)))
-                            .animation(.easeOut(duration: 0.35), value: progress)
-                    }
-                    .clipShape(Capsule())
+                ZStack {
+                    Circle()
+                        .stroke(isActive ? universe.swiftUIColor.opacity(0.27) : Theme.hairlineStrong, lineWidth: 2)
+                        .frame(width: 18, height: 18)
+                    Circle()
+                        .trim(from: 0, to: max(0.001, min(progress, 1)))
+                        .stroke(universe.swiftUIColor, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 18, height: 18)
+                        .animation(.easeOut(duration: 0.4), value: progress)
+                    Text(universe.emoji).font(.system(size: 11))
                 }
+                Text(universe.short).font(.system(size: 13, weight: .semibold))
+            }
+            .padding(.horizontal, 14).padding(.vertical, 8)
+            .background(
+                Capsule().fill(
+                    isActive
+                    ? AnyShapeStyle(LinearGradient(
+                        colors: [universe.swiftUIColor.opacity(0.22), universe.swiftUIColor.opacity(0.11)],
+                        startPoint: .top, endPoint: .bottom))
+                    : AnyShapeStyle(Theme.surface)
+                )
             )
             .overlay(
-                Capsule().stroke(isActive ? universe.swiftUIColor : Theme.border, lineWidth: 2)
+                Capsule().stroke(
+                    isActive ? universe.swiftUIColor : Theme.hairline,
+                    lineWidth: 1
+                )
             )
-            .foregroundStyle(isActive ? Theme.text : Theme.muted)
-            .shadow(color: isActive ? universe.swiftUIColor.opacity(0.35) : .clear, radius: 8)
+            .foregroundStyle(isActive ? Theme.text : Theme.textDim)
+            .shadow(color: isActive ? universe.swiftUIColor.opacity(0.30) : .clear, radius: 8, y: 4)
         }
         .buttonStyle(.plain)
     }
 }
 
-// MARK: - Progress + stats header
+// MARK: - Hero
 
 struct UniverseHeader: View {
     let universe: Universe
@@ -57,52 +96,81 @@ struct UniverseHeader: View {
     private var crossovers: Int { universe.entries.filter { $0.type == .crossover }.count }
 
     var body: some View {
-        VStack(spacing: 14) {
-            VStack(spacing: 6) {
-                HStack {
-                    Text(universe.name).font(.system(size: 13)).foregroundStyle(Theme.muted)
-                    Spacer()
-                    Text("\(done) / \(total) watched (\(Int(pct * 100))%)")
-                        .font(.system(size: 13)).foregroundStyle(Theme.muted)
+        ZStack(alignment: .topLeading) {
+            // Background gradient + faint hairline grid
+            LinearGradient(
+                colors: [universe.swiftUIColor.opacity(0.22), Theme.bgElev.opacity(0.0)],
+                startPoint: .topLeading, endPoint: .bottomTrailing
+            )
+            .background(Theme.bgElev)
+
+            VStack(alignment: .leading, spacing: 0) {
+                Text("\(universe.short) · WATCH ORDER")
+                    .font(.system(size: 11, weight: .bold))
+                    .tracking(1.6)
+                    .foregroundStyle(universe.swiftUIColor)
+
+                Text(universe.name)
+                    .font(.system(size: 26, weight: .bold))
+                    .tracking(-0.6)
+                    .foregroundStyle(Theme.text)
+                    .padding(.top, 6)
+
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text("\(Int(pct * 100))%")
+                        .font(.system(size: 38, weight: .bold))
+                        .tracking(-1.5)
+                        .foregroundStyle(Theme.text)
+                    Text("\(done) of \(total) watched")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Theme.textDim)
                 }
+                .padding(.top, 18)
+
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 3).fill(Theme.border)
+                        RoundedRectangle(cornerRadius: 3).fill(Color.white.opacity(0.06))
                         RoundedRectangle(cornerRadius: 3)
-                            .fill(universe.swiftUIColor)
+                            .fill(LinearGradient(
+                                colors: [universe.swiftUIColor, universe.swiftUIColor.opacity(0.8)],
+                                startPoint: .leading, endPoint: .trailing
+                            ))
                             .frame(width: geo.size.width * pct)
+                            .shadow(color: universe.swiftUIColor.opacity(0.5), radius: 6)
                             .animation(.easeOut(duration: 0.4), value: pct)
                     }
                 }
                 .frame(height: 6)
-            }
+                .padding(.top, 10)
 
-            HStack(spacing: 8) {
-                if movies > 0 { StatPill(icon: "🎬", label: "\(movies) movies") }
-                if series > 0 { StatPill(icon: "📺", label: "\(series) series") }
-                if crossovers > 0 { StatPill(icon: "⚡", label: "\(crossovers) crossovers") }
-                StatPill(icon: "✅", label: "\(done) watched")
+                HStack(spacing: 18) {
+                    if movies > 0 { HeroStat(n: movies, label: "Movies") }
+                    if series > 0 { HeroStat(n: series, label: "Series") }
+                    if crossovers > 0 { HeroStat(n: crossovers, label: crossovers == 1 ? "Crossover" : "Crossovers") }
+                }
+                .padding(.top, 14)
             }
+            .padding(20)
         }
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cardCornerLg))
+        .overlay(
+            RoundedRectangle(cornerRadius: Theme.cardCornerLg).stroke(Theme.hairline, lineWidth: 1)
+        )
     }
 }
 
-private struct StatPill: View {
-    let icon: String
+private struct HeroStat: View {
+    let n: Int
     let label: String
     var body: some View {
-        HStack(spacing: 6) {
-            Text(icon)
-            Text(label).font(.system(size: 12, weight: .medium))
+        HStack(spacing: 5) {
+            Text("\(n)").font(.system(size: 13, weight: .bold)).foregroundStyle(Theme.text)
+            Text(label).font(.system(size: 12)).foregroundStyle(Theme.textDim)
         }
-        .padding(.horizontal, 10).padding(.vertical, 6)
-        .background(Theme.surface, in: RoundedRectangle(cornerRadius: Theme.pillCorner))
-        .overlay(RoundedRectangle(cornerRadius: Theme.pillCorner).stroke(Theme.border, lineWidth: 1))
-        .foregroundStyle(Theme.text)
     }
 }
 
-// MARK: - Up Next card
+// MARK: - Up Next (signature neon glow)
 
 struct UpNextCard: View {
     let universe: Universe
@@ -112,67 +180,117 @@ struct UpNextCard: View {
     let onJump: () -> Void
 
     private var subtitle: String {
-        if let ep = episode { return "Episode \(ep) · \(entry.title)" }
-        switch entry.type {
-        case .movie: return "Movie · \(entry.year)"
-        case .series: return "Series · \(entry.year)"
-        case .crossover: return "Crossover · \(entry.year)"
+        if let ep = episode, let total = entry.episodes {
+            return "Episode \(ep) of \(total)"
         }
+        return String(entry.year)
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("UP NEXT")
-                .font(.system(size: 11, weight: .bold))
-                .tracking(1.2)
-                .foregroundStyle(universe.swiftUIColor)
+        ZStack(alignment: .topTrailing) {
+            // Inner card background
+            RoundedRectangle(cornerRadius: 17)
+                .fill(
+                    RadialGradient(
+                        colors: [Theme.neon.opacity(0.13), Color(red: 0.063, green: 0.059, blue: 0.047)],
+                        center: .topTrailing, startRadius: 0, endRadius: 320
+                    )
+                )
 
-            Text(episode != nil ? "Episode \(episode!) of \(entry.title)" : entry.title)
-                .font(.system(size: 22, weight: .bold))
-                .foregroundStyle(Theme.text)
-
-            Text(subtitle)
-                .font(.system(size: 13))
-                .foregroundStyle(Theme.muted)
-
-            HStack(spacing: 10) {
-                Button(action: onMarkWatched) {
-                    Label("Mark watched", systemImage: "checkmark")
-                        .font(.system(size: 14, weight: .semibold))
-                        .padding(.horizontal, 14).padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                        .background(universe.swiftUIColor, in: RoundedRectangle(cornerRadius: 10))
-                        .foregroundStyle(.white)
+            // Decorative neon path in the corner
+            Canvas { ctx, s in
+                let path = Path { p in
+                    p.move(to: .init(x: s.width * 0.05, y: s.height * 0.85))
+                    p.addLine(to: .init(x: s.width * 0.30, y: s.height * 0.55))
+                    p.addLine(to: .init(x: s.width * 0.50, y: s.height * 0.70))
+                    p.addLine(to: .init(x: s.width * 0.65, y: s.height * 0.30))
+                    p.addLine(to: .init(x: s.width * 0.90, y: s.height * 0.12))
                 }
-                .buttonStyle(.plain)
-
-                Button(action: onJump) {
-                    Label("Jump to", systemImage: "arrow.down")
-                        .font(.system(size: 14, weight: .semibold))
-                        .padding(.horizontal, 14).padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                        .background(Theme.surface2, in: RoundedRectangle(cornerRadius: 10))
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.border, lineWidth: 1))
-                        .foregroundStyle(Theme.text)
-                }
-                .buttonStyle(.plain)
+                ctx.addFilter(.blur(radius: 6))
+                ctx.stroke(path, with: .color(Theme.neon.opacity(0.6)),
+                           style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
+                ctx.addFilter(.blur(radius: 0))
+                ctx.stroke(path, with: .linearGradient(
+                    Gradient(colors: [Theme.neonDeep, Theme.neonGlow]),
+                    startPoint: .init(x: 0, y: s.height), endPoint: .init(x: s.width, y: 0)
+                ), style: StrokeStyle(lineWidth: 3.5, lineCap: .round, lineJoin: .round))
             }
+            .frame(width: 240, height: 120)
+            .opacity(0.55)
+            .offset(x: 30, y: -10)
+
+            VStack(alignment: .leading, spacing: 0) {
+                Text("UP NEXT")
+                    .font(.system(size: 10, weight: .bold))
+                    .tracking(2)
+                    .foregroundStyle(Theme.neonGlow)
+
+                Text(episode != nil ? entry.title : entry.title)
+                    .font(.system(size: 20, weight: .bold))
+                    .tracking(-0.5)
+                    .foregroundStyle(Theme.text)
+                    .lineLimit(2)
+                    .padding(.top, 8)
+                    .padding(.trailing, 80) // leave room for the deco
+
+                Text(subtitle)
+                    .font(.system(size: 12))
+                    .foregroundStyle(Theme.textDim)
+                    .padding(.top, 4)
+
+                HStack(spacing: 8) {
+                    Button(action: onMarkWatched) {
+                        Text("Mark watched")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(Color(red: 0.094, green: 0.078, blue: 0.063))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 11)
+                            .background(
+                                LinearGradient(
+                                    colors: [Theme.neonGlow, Theme.neonDeep],
+                                    startPoint: .top, endPoint: .bottom
+                                ),
+                                in: RoundedRectangle(cornerRadius: 12)
+                            )
+                            .shadow(color: Theme.neon.opacity(0.65), radius: 10, y: 6)
+                    }
+                    .buttonStyle(.plain)
+
+                    Button(action: onJump) {
+                        Text("Jump to")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Theme.text)
+                            .padding(.horizontal, 14).padding(.vertical, 11)
+                            .background(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 12))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.hairlineStrong, lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.top, 14)
+            }
+            .padding(EdgeInsets(top: 16, leading: 16, bottom: 14, trailing: 16))
         }
-        .padding(18)
-        .background(Theme.surface, in: RoundedRectangle(cornerRadius: Theme.cardCorner))
-        .overlay(
-            RoundedRectangle(cornerRadius: Theme.cardCorner)
-                .stroke(universe.swiftUIColor.opacity(0.6), lineWidth: 1.5)
+        .clipShape(RoundedRectangle(cornerRadius: 17))
+        .padding(1)
+        .background(
+            LinearGradient(
+                colors: [Theme.neonGlow, Theme.neonDeep, Theme.neon.opacity(0.4)],
+                startPoint: .topLeading, endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: Theme.cardCornerLg)
         )
-        .shadow(color: universe.swiftUIColor.opacity(0.25), radius: 14, y: 4)
+        .shadow(color: Theme.neon.opacity(0.33), radius: 18, y: 10)
+        .shadow(color: Theme.neon.opacity(0.26), radius: 60)
     }
 }
 
-// MARK: - Entry row
+// MARK: - Entry row with timeline rail
 
 struct EntryRow: View {
     let universe: Universe
     let entry: Entry
+    let isFirst: Bool
+    let isLast: Bool
     @Binding var expanded: Bool
     let watchedStore: WatchedStore
     let onToggleEntry: () -> Void
@@ -185,137 +303,183 @@ struct EntryRow: View {
     private var watchedEpisodes: Int { watchedStore.watchedEpisodeCount(entry) }
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 14) {
+            // Rail — both line and node share the same 22pt column,
+            // .center alignment guarantees they share a vertical axis.
+            ZStack(alignment: .top) {
+                // Vertical rail line behind the node
+                Rectangle()
+                    .fill(LinearGradient(
+                        colors: [color.opacity(0.33), Theme.hairline],
+                        startPoint: .top, endPoint: .bottom
+                    ))
+                    .frame(width: 2)
+                    .opacity(0.6)
+                    .padding(.top, isFirst ? 22 : 0)
+                    .frame(maxHeight: isLast ? 26 : .infinity, alignment: .top)
+
+                // Node
                 ZStack {
                     Circle()
-                        .fill(isComplete ? color : Color.clear)
-                        .frame(width: 22, height: 22)
+                        .fill(isComplete ? color : Theme.bg)
+                        .frame(width: 16, height: 16)
                     Circle()
-                        .stroke(isComplete ? color : Theme.border, lineWidth: 2)
-                        .frame(width: 22, height: 22)
+                        .stroke(isComplete ? color : color.opacity(0.4), lineWidth: 2)
+                        .frame(width: 16, height: 16)
                     if isComplete {
                         Image(systemName: "checkmark")
-                            .font(.system(size: 11, weight: .heavy))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 8, weight: .heavy))
+                            .foregroundStyle(Theme.bg)
                     }
                 }
-                .padding(.top, 1)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(alignment: .top, spacing: 6) {
-                        Text(entry.title)
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(Theme.text)
-                            .lineLimit(3)
-                            .strikethrough(isComplete && !hasEpisodes, color: Theme.muted)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                        if hasEpisodes {
-                            Button { withAnimation { expanded.toggle() } } label: {
-                                Image(systemName: expanded ? "chevron.up" : "chevron.down")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundStyle(Theme.muted)
-                                    .padding(.horizontal, 6).padding(.vertical, 3)
-                                    .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.border, lineWidth: 1))
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-
-                    BadgeRow(universe: universe, entry: entry)
-
-                    if hasEpisodes, let n = entry.episodes {
-                        EpisodeProgress(watched: watchedEpisodes, total: n, color: color)
-                    }
-
-                    if let note = entry.note {
-                        Text(note)
-                            .font(.system(size: 12))
-                            .italic()
-                            .foregroundStyle(Theme.muted)
-                            .lineLimit(2)
-                    }
-                }
+                .shadow(color: isComplete ? color.opacity(0.5) : .clear, radius: 5)
+                .padding(.top, 18)
             }
-            .padding(14)
-            .contentShape(Rectangle())
-            .onTapGesture { onToggleEntry() }
+            .frame(width: 22, alignment: .center)
 
-            if hasEpisodes && expanded, let n = entry.episodes {
-                Divider().background(Theme.border)
-                LazyVGrid(columns: episodeGridColumns, spacing: 6) {
-                    ForEach(1...n, id: \.self) { ep in
-                        let key = WatchedMarker.episodeKey(entryId: entry.id, episode: ep)
-                        let watched = watchedStore.isWatched(key)
-                        Button { onToggleEpisode(ep) } label: {
-                            Text("\(ep)")
-                                .font(.system(size: 12, weight: .medium))
-                                .frame(maxWidth: .infinity, minHeight: 30)
-                                .background(watched ? color.opacity(0.25) : Theme.surface2,
-                                            in: RoundedRectangle(cornerRadius: 6))
-                                .overlay(RoundedRectangle(cornerRadius: 6)
-                                    .stroke(watched ? color : Theme.border, lineWidth: 1))
-                                .foregroundStyle(watched ? Theme.text : Theme.muted)
+            // Card
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 6) {
+                    Text(entry.title)
+                        .font(.system(size: 14.5, weight: .semibold))
+                        .tracking(-0.2)
+                        .foregroundStyle(isComplete ? Theme.muted : Theme.text)
+                        .strikethrough(isComplete && !hasEpisodes, color: Color.white.opacity(0.2))
+                        .lineLimit(3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if hasEpisodes {
+                        Button { withAnimation { expanded.toggle() } } label: {
+                            Image(systemName: expanded ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 9, weight: .bold))
+                                .foregroundStyle(Theme.muted)
+                                .padding(.horizontal, 7).padding(.vertical, 4)
+                                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.hairline, lineWidth: 1))
                         }
                         .buttonStyle(.plain)
                     }
                 }
-                .padding(12)
+
+                BadgeRow(universe: universe, entry: entry,
+                         hasEpisodes: hasEpisodes,
+                         watchedEpisodes: watchedEpisodes)
+                    .padding(.top, 4)
+
+                if hasEpisodes, let n = entry.episodes {
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 999).fill(Color.white.opacity(0.05))
+                            RoundedRectangle(cornerRadius: 999)
+                                .fill(color)
+                                .frame(width: geo.size.width * (n == 0 ? 0 : Double(watchedEpisodes) / Double(n)))
+                                .shadow(color: color.opacity(0.5), radius: 4)
+                        }
+                    }
+                    .frame(height: 2)
+                    .padding(.top, 8)
+                }
+
+                if let note = entry.note {
+                    Text(note)
+                        .font(.system(size: 12))
+                        .italic()
+                        .foregroundStyle(Theme.muted)
+                        .lineLimit(2)
+                        .padding(.top, 6)
+                }
+
+                if hasEpisodes && expanded, let n = entry.episodes {
+                    LazyVGrid(columns: episodeGridColumns, spacing: 4) {
+                        ForEach(1...n, id: \.self) { ep in
+                            let key = WatchedMarker.episodeKey(entryId: entry.id, episode: ep)
+                            let watched = watchedStore.isWatched(key)
+                            Button { onToggleEpisode(ep) } label: {
+                                Text("\(ep)")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .frame(maxWidth: .infinity, minHeight: 30)
+                                    .background(watched ? color.opacity(0.25) : Theme.surface2,
+                                                in: RoundedRectangle(cornerRadius: 6))
+                                    .overlay(RoundedRectangle(cornerRadius: 6)
+                                        .stroke(watched ? color : Theme.hairline, lineWidth: 1))
+                                    .foregroundStyle(watched ? Theme.text : Theme.muted)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.top, 10)
+                }
             }
+            .padding(EdgeInsets(top: 12, leading: 14, bottom: 12, trailing: 14))
+            .background(
+                RoundedRectangle(cornerRadius: Theme.cardCorner)
+                    .fill(cardBackground)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Theme.cardCorner).stroke(borderColor, lineWidth: borderWidth)
+            )
+            .contentShape(Rectangle())
+            .onTapGesture { onToggleEntry() }
         }
-        .background(cardBackground, in: RoundedRectangle(cornerRadius: Theme.cardCorner))
-        .overlay(
-            RoundedRectangle(cornerRadius: Theme.cardCorner)
-                .stroke(borderColor, lineWidth: borderWidth)
-        )
-        .opacity(isComplete && !isCrossover ? 0.78 : 1)
+        .padding(.bottom, 8)
     }
 
     private var cardBackground: Color {
         if isCrossover { return Theme.surface2 }
+        if isComplete  { return Color.white.opacity(0.02) }
         return Theme.surface
     }
-
     private var borderColor: Color {
-        if isCrossover { return universe.accentColor.opacity(0.55) }
-        if isComplete { return color.opacity(0.5) }
-        return Theme.border
+        if isCrossover { return universe.accentColor.opacity(0.4) }
+        if isComplete  { return Theme.hairline }
+        return Theme.hairlineStrong
     }
-
     private var borderWidth: CGFloat { isCrossover ? 1.5 : 1 }
-
     private var episodeGridColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 6), count: 6)
+        Array(repeating: GridItem(.flexible(), spacing: 4), count: 6)
     }
 }
 
-// MARK: - Badges row + helpers
+// MARK: - Badge row
 
 private struct BadgeRow: View {
     let universe: Universe
     let entry: Entry
+    let hasEpisodes: Bool
+    let watchedEpisodes: Int
 
     var body: some View {
-        // Use a wrapping HStack via an HFlow-style fallback: small content fits on one line in practice.
-        HStack(spacing: 6) {
-            Badge(text: String(entry.year), foreground: Theme.muted, background: Theme.surface2)
+        HStack(spacing: 8) {
+            Text(String(entry.year))
+                .font(.system(size: 11.5))
+                .foregroundStyle(Theme.muted)
+
+            Circle().fill(Theme.muted).frame(width: 3, height: 3)
 
             switch entry.type {
             case .movie:
-                Badge(text: "Movie", foreground: Color.fromHex("#7aabff") ?? .blue,
-                      background: (Color.fromHex("#7aabff") ?? .blue).opacity(0.18))
+                Badge(text: "Movie",
+                      foreground: Color.fromHex("#9bbcff") ?? .blue,
+                      background: Color(red: 0.48, green: 0.67, blue: 1.0).opacity(0.10))
             case .series:
-                Badge(text: "Series", foreground: Color.fromHex("#7affd4") ?? .green,
-                      background: (Color.fromHex("#7affd4") ?? .green).opacity(0.18))
+                Badge(text: "Series",
+                      foreground: Color.fromHex("#7affd4") ?? .green,
+                      background: Color(red: 0.48, green: 1.0, blue: 0.83).opacity(0.10))
             case .crossover:
-                Badge(text: "Crossover", foreground: universe.accentColor,
+                Badge(text: "Crossover",
+                      foreground: universe.accentColor,
                       background: universe.accentColor.opacity(0.22))
             }
 
             if let show = universe.showBadge(for: entry) {
                 let c = universe.showColor(for: entry)
-                Badge(text: show, foreground: c, background: c.opacity(0.20))
+                Badge(text: show, foreground: c, background: c.opacity(0.20), tracking: 0.4)
+            }
+
+            if hasEpisodes, let n = entry.episodes {
+                Circle().fill(Theme.muted).frame(width: 3, height: 3)
+                Text("\(watchedEpisodes)/\(n) eps")
+                    .font(.system(size: 11.5))
+                    .foregroundStyle(Theme.textDim)
             }
 
             Spacer(minLength: 0)
@@ -327,38 +491,44 @@ private struct Badge: View {
     let text: String
     let foreground: Color
     let background: Color
+    var tracking: CGFloat = 0.5
 
     var body: some View {
         Text(text.uppercased())
-            .font(.system(size: 10, weight: .bold))
-            .tracking(0.6)
-            .padding(.horizontal, 7).padding(.vertical, 3)
+            .font(.system(size: 10.5, weight: .bold))
+            .tracking(tracking)
+            .padding(.horizontal, 7).padding(.vertical, 2)
             .background(background, in: RoundedRectangle(cornerRadius: 4))
             .foregroundStyle(foreground)
             .lineLimit(1)
     }
 }
 
-private struct EpisodeProgress: View {
-    let watched: Int
-    let total: Int
-    let color: Color
+// MARK: - Phase header
+
+struct PhaseHeader: View {
+    let phase: String
+    let count: Int
+    let accent: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("\(watched) / \(total) episodes")
-                .font(.system(size: 11))
+        HStack(spacing: 12) {
+            Text(phase.uppercased())
+                .font(.system(size: 11, weight: .heavy))
+                .tracking(2)
+                .foregroundStyle(accent)
+            LinearGradient(
+                colors: [accent.opacity(0.33), .clear],
+                startPoint: .leading, endPoint: .trailing
+            )
+            .frame(height: 1)
+            Text("\(count)")
+                .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(Theme.muted)
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 2).fill(Theme.border)
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(color)
-                        .frame(width: geo.size.width * (total == 0 ? 0 : Double(watched) / Double(total)))
-                        .animation(.easeOut(duration: 0.3), value: watched)
-                }
-            }
-            .frame(height: 3)
+                .padding(.horizontal, 8).padding(.vertical, 2)
+                .background(Theme.surface, in: Capsule())
+                .overlay(Capsule().stroke(Theme.hairline, lineWidth: 1))
         }
+        .padding(.vertical, 4)
     }
 }

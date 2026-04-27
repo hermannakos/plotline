@@ -30,8 +30,6 @@ struct ContentView: View {
         }
     }
 
-    // MARK: -
-
     @ViewBuilder
     private func mainView(watchedStore: WatchedStore) -> some View {
         let universe = store.universe(id: activeId) ?? store.universes.first!
@@ -41,21 +39,24 @@ struct ContentView: View {
 
         ScrollViewReader { proxy in
             ScrollView {
-                VStack(spacing: 18) {
-                    // Header
-                    VStack(spacing: 6) {
-                        Text("🎬 Plotline")
-                            .font(.system(size: 28, weight: .heavy))
-                            .foregroundStyle(Theme.text)
-                        Text("Your cinematic universe watch order tracker")
-                            .font(.system(size: 13))
-                            .foregroundStyle(Theme.muted)
+                VStack(spacing: 14) {
+                    // Top bar — mark + wordmark, no emoji clutter
+                    HStack {
+                        HStack(spacing: 10) {
+                            PlotlineMark(size: 22)
+                            Text("Plotline")
+                                .font(.system(size: 19, weight: .bold))
+                                .tracking(-0.4)
+                                .foregroundStyle(Theme.text)
+                        }
+                        Spacer()
                     }
-                    .padding(.top, 8)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 6)
 
                     // Universe tabs
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 8) {
                             ForEach(store.universes) { u in
                                 let total = u.entries.count
                                 let pct = total == 0 ? 0.0 : Double(watchedStore.doneCount(in: u)) / Double(total)
@@ -71,7 +72,7 @@ struct ContentView: View {
                         .padding(.horizontal, 16)
                     }
 
-                    // Progress + stats
+                    // Hero
                     UniverseHeader(universe: universe, done: done)
                         .padding(.horizontal, 16)
 
@@ -99,25 +100,20 @@ struct ContentView: View {
                         .padding(.horizontal, 16)
                     }
 
-                    // Phase groups
-                    LazyVStack(spacing: 24) {
+                    // Phase groups with timeline rail
+                    LazyVStack(spacing: 0) {
                         ForEach(phases, id: \.0) { (phase, entries) in
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack(spacing: 10) {
-                                    Text(phase)
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundStyle(Theme.text)
-                                    Rectangle().fill(Theme.border).frame(height: 1)
-                                    Text("\(entries.count)")
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .foregroundStyle(Theme.muted)
-                                        .padding(.horizontal, 8).padding(.vertical, 2)
-                                        .background(Theme.surface2, in: RoundedRectangle(cornerRadius: 999))
-                                }
-                                ForEach(entries) { entry in
+                            VStack(alignment: .leading, spacing: 0) {
+                                PhaseHeader(phase: phase, count: entries.count, accent: universe.swiftUIColor)
+                                    .padding(.top, 10)
+                                    .padding(.bottom, 6)
+
+                                ForEach(Array(entries.enumerated()), id: \.element.id) { (i, entry) in
                                     EntryRow(
                                         universe: universe,
                                         entry: entry,
+                                        isFirst: i == 0,
+                                        isLast: i == entries.count - 1,
                                         expanded: Binding(
                                             get: { expandedEntryId == entry.id },
                                             set: { expandedEntryId = $0 ? entry.id : nil }
@@ -137,8 +133,8 @@ struct ContentView: View {
                     }
                     .padding(.horizontal, 16)
 
-                    Text("Built with ❤️")
-                        .font(.system(size: 12))
+                    Text("Built with care")
+                        .font(.system(size: 11))
                         .foregroundStyle(Theme.muted)
                         .padding(.vertical, 24)
                 }
@@ -165,7 +161,6 @@ struct ContentView: View {
         }
     }
 
-    /// Preserves insertion order of phases — same behavior as the web app's `groupByPhase`.
     private func groupByPhase(_ entries: [Entry]) -> [(String, [Entry])] {
         var order: [String] = []
         var byPhase: [String: [Entry]] = [:]
