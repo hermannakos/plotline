@@ -1,0 +1,1542 @@
+{
+  "mcu": {
+    "id": "mcu",
+    "name": "Marvel Cinematic Universe",
+    "short": "MCU",
+    "color": "#E8173A",
+    "accent": "#FFD700",
+    "emoji": "🦸",
+    "description": "The Infinity Saga & beyond",
+    "entries": [
+      {
+        "id": "mcu_1",
+        "title": "Iron Man",
+        "year": 2008,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_2",
+        "title": "The Incredible Hulk",
+        "year": 2008,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_3",
+        "title": "Iron Man 2",
+        "year": 2010,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_4",
+        "title": "Thor",
+        "year": 2011,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_5",
+        "title": "Captain America: The First Avenger",
+        "year": 2011,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_6",
+        "title": "The Avengers",
+        "year": 2012,
+        "type": "Movie",
+        "phase": "Phase 1"
+      },
+      {
+        "id": "mcu_7",
+        "title": "Iron Man 3",
+        "year": 2013,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_8",
+        "title": "Thor: The Dark World",
+        "year": 2013,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_9",
+        "title": "Captain America: The Winter Soldier",
+        "year": 2014,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_10",
+        "title": "Guardians of the Galaxy",
+        "year": 2014,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_11",
+        "title": "Avengers: Age of Ultron",
+        "year": 2015,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_12",
+        "title": "Ant-Man",
+        "year": 2015,
+        "type": "Movie",
+        "phase": "Phase 2"
+      },
+      {
+        "id": "mcu_13",
+        "title": "Captain America: Civil War",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_14",
+        "title": "Doctor Strange",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_15",
+        "title": "Guardians of the Galaxy Vol. 2",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_16",
+        "title": "Spider-Man: Homecoming",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_17",
+        "title": "Thor: Ragnarok",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_18",
+        "title": "Black Panther",
+        "year": 2018,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_19",
+        "title": "Avengers: Infinity War",
+        "year": 2018,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_20",
+        "title": "Ant-Man and the Wasp",
+        "year": 2018,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_21",
+        "title": "Captain Marvel",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_22",
+        "title": "Avengers: Endgame",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_23",
+        "title": "Spider-Man: Far From Home",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Phase 3"
+      },
+      {
+        "id": "mcu_24",
+        "title": "WandaVision",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 9
+      },
+      {
+        "id": "mcu_25",
+        "title": "The Falcon and the Winter Soldier",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_26",
+        "title": "Loki",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_27",
+        "title": "Black Widow",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_28",
+        "title": "Shang-Chi and the Legend of the Ten Rings",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_29",
+        "title": "Eternals",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_30",
+        "title": "Hawkeye",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_31",
+        "title": "Spider-Man: No Way Home",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_32",
+        "title": "Moon Knight",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_33",
+        "title": "Doctor Strange in the Multiverse of Madness",
+        "year": 2022,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_34",
+        "title": "Ms. Marvel",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_35",
+        "title": "Thor: Love and Thunder",
+        "year": 2022,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_36",
+        "title": "She-Hulk: Attorney at Law",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Phase 4",
+        "episodes": 9
+      },
+      {
+        "id": "mcu_37",
+        "title": "Black Panther: Wakanda Forever",
+        "year": 2022,
+        "type": "Movie",
+        "phase": "Phase 4"
+      },
+      {
+        "id": "mcu_38",
+        "title": "Secret Invasion",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Phase 5",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_39",
+        "title": "Ant-Man and the Wasp: Quantumania",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Phase 5"
+      },
+      {
+        "id": "mcu_40",
+        "title": "Guardians of the Galaxy Vol. 3",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Phase 5"
+      },
+      {
+        "id": "mcu_41",
+        "title": "The Marvels",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Phase 5"
+      },
+      {
+        "id": "mcu_42",
+        "title": "Loki Season 2",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Phase 5",
+        "episodes": 6
+      },
+      {
+        "id": "mcu_43",
+        "title": "Echo",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Phase 5",
+        "episodes": 5
+      },
+      {
+        "id": "mcu_44",
+        "title": "Deadpool & Wolverine",
+        "year": 2024,
+        "type": "Movie",
+        "phase": "Phase 5"
+      },
+      {
+        "id": "mcu_45",
+        "title": "Agatha All Along",
+        "year": 2024,
+        "type": "Series",
+        "phase": "Phase 5",
+        "episodes": 9
+      },
+      {
+        "id": "mcu_46",
+        "title": "Daredevil: Born Again",
+        "year": 2025,
+        "type": "Series",
+        "phase": "Phase 5",
+        "episodes": 9
+      },
+      {
+        "id": "mcu_47",
+        "title": "Thunderbolts*",
+        "year": 2025,
+        "type": "Movie",
+        "phase": "Phase 5"
+      }
+    ]
+  },
+  "dceu": {
+    "id": "dceu",
+    "name": "DC Extended Universe",
+    "short": "DCU",
+    "color": "#1A3A6E",
+    "accent": "#FFD700",
+    "emoji": "🦇",
+    "description": "From Krypton to Gotham",
+    "entries": [
+      {
+        "id": "dceu_1",
+        "title": "Man of Steel",
+        "year": 2013,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_2",
+        "title": "Batman v Superman: Dawn of Justice",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_3",
+        "title": "Suicide Squad",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_4",
+        "title": "Wonder Woman",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_5",
+        "title": "Justice League",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_6",
+        "title": "Aquaman",
+        "year": 2018,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_7",
+        "title": "Shazam!",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_8",
+        "title": "Birds of Prey",
+        "year": 2020,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_9",
+        "title": "Wonder Woman 1984",
+        "year": 2020,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_10",
+        "title": "Zack Snyder's Justice League",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Era 1",
+        "note": "Director's Cut"
+      },
+      {
+        "id": "dceu_11",
+        "title": "The Suicide Squad",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_12",
+        "title": "Peacemaker",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Era 1",
+        "episodes": 8
+      },
+      {
+        "id": "dceu_13",
+        "title": "The Batman",
+        "year": 2022,
+        "type": "Movie",
+        "phase": "Elseworlds"
+      },
+      {
+        "id": "dceu_14",
+        "title": "Black Adam",
+        "year": 2022,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_15",
+        "title": "Shazam! Fury of the Gods",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_16",
+        "title": "The Flash",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_17",
+        "title": "Blue Beetle",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_18",
+        "title": "Aquaman and the Lost Kingdom",
+        "year": 2023,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "dceu_19",
+        "title": "Creature Commandos",
+        "year": 2024,
+        "type": "Series",
+        "phase": "DCU Chapter 1",
+        "episodes": 7
+      },
+      {
+        "id": "dceu_20",
+        "title": "Superman",
+        "year": 2025,
+        "type": "Movie",
+        "phase": "DCU Chapter 1"
+      }
+    ]
+  },
+  "monsterverse": {
+    "id": "monsterverse",
+    "name": "Legendary Monsterverse",
+    "short": "MV",
+    "color": "#1B4D3E",
+    "accent": "#7FFF00",
+    "emoji": "🦖",
+    "description": "Titans, Kaiju & ancient wars",
+    "entries": [
+      {
+        "id": "mv_1",
+        "title": "Godzilla",
+        "year": 2014,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "mv_2",
+        "title": "Kong: Skull Island",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "mv_3",
+        "title": "Godzilla: King of the Monsters",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Era 1"
+      },
+      {
+        "id": "mv_4",
+        "title": "Godzilla vs. Kong",
+        "year": 2021,
+        "type": "Movie",
+        "phase": "Era 2"
+      },
+      {
+        "id": "mv_5",
+        "title": "Monarch: Legacy of Monsters",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Era 2",
+        "episodes": 10
+      },
+      {
+        "id": "mv_6",
+        "title": "Godzilla x Kong: The New Empire",
+        "year": 2024,
+        "type": "Movie",
+        "phase": "Era 2"
+      }
+    ]
+  },
+  "starwars": {
+    "id": "starwars",
+    "name": "Star Wars Universe",
+    "short": "SW",
+    "color": "#2C2C2C",
+    "accent": "#FFE81F",
+    "emoji": "⚔️",
+    "description": "A galaxy far, far away",
+    "entries": [
+      {
+        "id": "sw_1",
+        "title": "The Phantom Menace",
+        "year": 1999,
+        "type": "Movie",
+        "phase": "Prequel Trilogy"
+      },
+      {
+        "id": "sw_2",
+        "title": "Attack of the Clones",
+        "year": 2002,
+        "type": "Movie",
+        "phase": "Prequel Trilogy"
+      },
+      {
+        "id": "sw_3",
+        "title": "The Clone Wars (Film)",
+        "year": 2008,
+        "type": "Movie",
+        "phase": "Clone Wars Era"
+      },
+      {
+        "id": "sw_4",
+        "title": "The Clone Wars (Series)",
+        "year": 2008,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 133
+      },
+      {
+        "id": "sw_5",
+        "title": "Revenge of the Sith",
+        "year": 2005,
+        "type": "Movie",
+        "phase": "Prequel Trilogy"
+      },
+      {
+        "id": "sw_6",
+        "title": "Bad Batch",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Clone Wars Era",
+        "episodes": 48
+      },
+      {
+        "id": "sw_7",
+        "title": "Solo: A Star Wars Story",
+        "year": 2018,
+        "type": "Movie",
+        "phase": "Anthology"
+      },
+      {
+        "id": "sw_8",
+        "title": "Obi-Wan Kenobi",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 6
+      },
+      {
+        "id": "sw_9",
+        "title": "Andor",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 12
+      },
+      {
+        "id": "sw_10",
+        "title": "Rebels",
+        "year": 2014,
+        "type": "Series",
+        "phase": "Galactic Empire Era",
+        "episodes": 75
+      },
+      {
+        "id": "sw_11",
+        "title": "Rogue One: A Star Wars Story",
+        "year": 2016,
+        "type": "Movie",
+        "phase": "Anthology"
+      },
+      {
+        "id": "sw_12",
+        "title": "A New Hope",
+        "year": 1977,
+        "type": "Movie",
+        "phase": "Original Trilogy"
+      },
+      {
+        "id": "sw_13",
+        "title": "The Empire Strikes Back",
+        "year": 1980,
+        "type": "Movie",
+        "phase": "Original Trilogy"
+      },
+      {
+        "id": "sw_14",
+        "title": "Return of the Jedi",
+        "year": 1983,
+        "type": "Movie",
+        "phase": "Original Trilogy"
+      },
+      {
+        "id": "sw_15",
+        "title": "The Mandalorian S1–2",
+        "year": 2019,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 16
+      },
+      {
+        "id": "sw_16",
+        "title": "The Book of Boba Fett",
+        "year": 2021,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 7
+      },
+      {
+        "id": "sw_17",
+        "title": "The Mandalorian S3",
+        "year": 2023,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 8
+      },
+      {
+        "id": "sw_18",
+        "title": "Ahsoka",
+        "year": 2023,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 8
+      },
+      {
+        "id": "sw_19",
+        "title": "The Force Awakens",
+        "year": 2015,
+        "type": "Movie",
+        "phase": "Sequel Trilogy"
+      },
+      {
+        "id": "sw_20",
+        "title": "The Last Jedi",
+        "year": 2017,
+        "type": "Movie",
+        "phase": "Sequel Trilogy"
+      },
+      {
+        "id": "sw_21",
+        "title": "The Rise of Skywalker",
+        "year": 2019,
+        "type": "Movie",
+        "phase": "Sequel Trilogy"
+      },
+      {
+        "id": "sw_22",
+        "title": "Skeleton Crew",
+        "year": 2024,
+        "type": "Series",
+        "phase": "New Republic Era",
+        "episodes": 8
+      }
+    ]
+  },
+  "arrowverse": {
+    "id": "arrowverse",
+    "name": "Arrowverse",
+    "short": "AV",
+    "color": "#1F6B2E",
+    "accent": "#00E676",
+    "emoji": "🏹",
+    "description": "Earth-Prime & the multiverse",
+    "showColors": {
+      "Arrow": "#4CAF50",
+      "The Flash": "#FFD600",
+      "Supergirl": "#1E88E5",
+      "Legends": "#FF6D00",
+      "Batwoman": "#C62828",
+      "Black Lightning": "#7B1FA2",
+      "Constantine": "#37474F",
+      "CROSSOVER": "#00E676"
+    },
+    "entries": [
+      {
+        "id": "av_1",
+        "title": "Arrow — Season 1",
+        "year": 2012,
+        "type": "Series",
+        "phase": "The Beginning (2012–2014)",
+        "episodes": 23,
+        "show": "Arrow",
+        "note": "eps 1–23"
+      },
+      {
+        "id": "av_2",
+        "title": "Arrow — Season 2",
+        "year": 2013,
+        "type": "Series",
+        "phase": "The Beginning (2012–2014)",
+        "episodes": 23,
+        "show": "Arrow",
+        "note": "eps 1–23"
+      },
+      {
+        "id": "av_3",
+        "title": "Arrow — Season 3, eps 1–7",
+        "year": 2014,
+        "type": "Series",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "episodes": 7,
+        "show": "Arrow",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_4",
+        "title": "The Flash — Season 1, eps 1–7",
+        "year": 2014,
+        "type": "Series",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "episodes": 7,
+        "show": "The Flash",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_xo_1a",
+        "title": "⚡ The Flash S1E08 — \"Flash vs. Arrow\"",
+        "year": 2014,
+        "type": "Crossover",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "show": "CROSSOVER",
+        "note": "Part 1 of 2"
+      },
+      {
+        "id": "av_xo_1b",
+        "title": "⚡ Arrow S3E08 — \"The Brave and the Bold\"",
+        "year": 2014,
+        "type": "Crossover",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "show": "CROSSOVER",
+        "note": "Part 2 of 2"
+      },
+      {
+        "id": "av_5",
+        "title": "Arrow — Season 3, eps 9–23",
+        "year": 2014,
+        "type": "Series",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "episodes": 15,
+        "show": "Arrow",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_6",
+        "title": "The Flash — Season 1, eps 9–23",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Flash vs. Arrow (2014–2015)",
+        "episodes": 15,
+        "show": "The Flash",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_7",
+        "title": "The Flash — Season 2, eps 1–7",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 7,
+        "show": "The Flash",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_8",
+        "title": "Arrow — Season 4, eps 1–7",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 7,
+        "show": "Arrow",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_9",
+        "title": "Supergirl — Season 1, eps 1–6",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 6,
+        "show": "Supergirl",
+        "note": "eps 1–6 (separate Earth, no crossover yet)"
+      },
+      {
+        "id": "av_xo_2a",
+        "title": "⚡ The Flash S2E08 — \"Legends of Today\"",
+        "year": 2015,
+        "type": "Crossover",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "show": "CROSSOVER",
+        "note": "Part 1 of 2 · intro to Vandal Savage, Hawkman & Hawkgirl"
+      },
+      {
+        "id": "av_xo_2b",
+        "title": "⚡ Arrow S4E08 — \"Legends of Yesterday\"",
+        "year": 2015,
+        "type": "Crossover",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "show": "CROSSOVER",
+        "note": "Part 2 of 2 · sets up Legends of Tomorrow"
+      },
+      {
+        "id": "av_10",
+        "title": "The Flash — Season 2, eps 9–23",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 15,
+        "show": "The Flash",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_11",
+        "title": "Arrow — Season 4, eps 9–23",
+        "year": 2015,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 15,
+        "show": "Arrow",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_12",
+        "title": "Supergirl — Season 1, eps 7–20",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 14,
+        "show": "Supergirl",
+        "note": "eps 7–20"
+      },
+      {
+        "id": "av_13",
+        "title": "DC's Legends of Tomorrow — Season 1",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "episodes": 16,
+        "show": "Legends",
+        "note": "eps 1–16 · watch after Arrow S4 & Flash S2"
+      },
+      {
+        "id": "av_xo_3",
+        "title": "⚡ Supergirl S1E18 — \"World's Finest\"",
+        "year": 2016,
+        "type": "Crossover",
+        "phase": "Heroes Join Forces (2015–2016)",
+        "show": "CROSSOVER",
+        "note": "Flash visits Earth-38 · fun standalone, no plot impact on Arrow"
+      },
+      {
+        "id": "av_14",
+        "title": "The Flash — Season 3, eps 1–7",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 7,
+        "show": "The Flash",
+        "note": "eps 1–7 · includes Flashpoint fallout"
+      },
+      {
+        "id": "av_15",
+        "title": "Arrow — Season 5, eps 1–7",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 7,
+        "show": "Arrow",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_16",
+        "title": "Supergirl — Season 2, eps 1–7",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 7,
+        "show": "Supergirl",
+        "note": "eps 1–7 · Supergirl moves to Earth-1 CW this season"
+      },
+      {
+        "id": "av_17",
+        "title": "DC's Legends of Tomorrow — Season 2, eps 1–6",
+        "year": 2016,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 6,
+        "show": "Legends",
+        "note": "eps 1–6"
+      },
+      {
+        "id": "av_xo_4a",
+        "title": "⚡ Supergirl S2E08 — \"Medusa\"",
+        "year": 2016,
+        "type": "Crossover",
+        "phase": "Invasion! (2016–2017)",
+        "show": "CROSSOVER",
+        "note": "Part 1 (teaser only — crossover starts at end of ep)"
+      },
+      {
+        "id": "av_xo_4b",
+        "title": "⚡ The Flash S3E08 — \"Invasion!\"",
+        "year": 2016,
+        "type": "Crossover",
+        "phase": "Invasion! (2016–2017)",
+        "show": "CROSSOVER",
+        "note": "Part 2 · Dominators attack, first 4-show crossover"
+      },
+      {
+        "id": "av_xo_4c",
+        "title": "⚡ Arrow S5E08 — \"Invasion!\"",
+        "year": 2016,
+        "type": "Crossover",
+        "phase": "Invasion! (2016–2017)",
+        "show": "CROSSOVER",
+        "note": "Part 3 · Arrow's 100th episode celebration"
+      },
+      {
+        "id": "av_xo_4d",
+        "title": "⚡ Legends S2E07 — \"Invasion!\"",
+        "year": 2016,
+        "type": "Crossover",
+        "phase": "Invasion! (2016–2017)",
+        "show": "CROSSOVER",
+        "note": "Part 4 · conclusion"
+      },
+      {
+        "id": "av_18",
+        "title": "The Flash — Season 3, eps 9–23",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 15,
+        "show": "The Flash",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_19",
+        "title": "Arrow — Season 5, eps 9–23",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 15,
+        "show": "Arrow",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_20",
+        "title": "Supergirl — Season 2, eps 9–22",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 14,
+        "show": "Supergirl",
+        "note": "eps 9–22"
+      },
+      {
+        "id": "av_21",
+        "title": "DC's Legends of Tomorrow — Season 2, eps 8–17",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Invasion! (2016–2017)",
+        "episodes": 10,
+        "show": "Legends",
+        "note": "eps 8–17"
+      },
+      {
+        "id": "av_22",
+        "title": "The Flash — Season 4, eps 1–7",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 7,
+        "show": "The Flash",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_23",
+        "title": "Arrow — Season 6, eps 1–7",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 7,
+        "show": "Arrow",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_24",
+        "title": "Supergirl — Season 3, eps 1–7",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 7,
+        "show": "Supergirl",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_25",
+        "title": "DC's Legends of Tomorrow — Season 3, eps 1–7",
+        "year": 2017,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 7,
+        "show": "Legends",
+        "note": "eps 1–7"
+      },
+      {
+        "id": "av_xo_5a",
+        "title": "⚡ Supergirl S3E08 — \"Crisis on Earth-X, Part 1\"",
+        "year": 2017,
+        "type": "Crossover",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "show": "CROSSOVER",
+        "note": "Barry & Iris wedding — Nazi doppelgänger invasion begins"
+      },
+      {
+        "id": "av_xo_5b",
+        "title": "⚡ Arrow S6E08 — \"Crisis on Earth-X, Part 2\"",
+        "year": 2017,
+        "type": "Crossover",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "show": "CROSSOVER",
+        "note": "Part 2"
+      },
+      {
+        "id": "av_xo_5c",
+        "title": "⚡ The Flash S4E08 — \"Crisis on Earth-X, Part 3\"",
+        "year": 2017,
+        "type": "Crossover",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "show": "CROSSOVER",
+        "note": "Part 3"
+      },
+      {
+        "id": "av_xo_5d",
+        "title": "⚡ Legends S3E08 — \"Crisis on Earth-X, Part 4\"",
+        "year": 2017,
+        "type": "Crossover",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "show": "CROSSOVER",
+        "note": "Part 4 · conclusion · major character death"
+      },
+      {
+        "id": "av_26",
+        "title": "The Flash — Season 4, eps 9–23",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 15,
+        "show": "The Flash",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_27",
+        "title": "Arrow — Season 6, eps 9–23",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 15,
+        "show": "Arrow",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_28",
+        "title": "Supergirl — Season 3, eps 9–23",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 15,
+        "show": "Supergirl",
+        "note": "eps 9–23"
+      },
+      {
+        "id": "av_29",
+        "title": "DC's Legends of Tomorrow — Season 3, eps 9–18",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Crisis on Earth-X (2017–2018)",
+        "episodes": 10,
+        "show": "Legends",
+        "note": "eps 9–18"
+      },
+      {
+        "id": "av_30",
+        "title": "The Flash — Season 5, eps 1–8",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 8,
+        "show": "The Flash",
+        "note": "eps 1–8 · Nora West-Allen arc begins"
+      },
+      {
+        "id": "av_31",
+        "title": "Arrow — Season 7, eps 1–8",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 8,
+        "show": "Arrow",
+        "note": "eps 1–8 · Oliver in prison arc"
+      },
+      {
+        "id": "av_32",
+        "title": "Supergirl — Season 4, eps 1–8",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 8,
+        "show": "Supergirl",
+        "note": "eps 1–8"
+      },
+      {
+        "id": "av_33",
+        "title": "DC's Legends of Tomorrow — Season 4, eps 1–8",
+        "year": 2018,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 8,
+        "show": "Legends",
+        "note": "eps 1–8"
+      },
+      {
+        "id": "av_xo_6a",
+        "title": "⚡ The Flash S5E09 — \"Elseworlds, Part 1\"",
+        "year": 2018,
+        "type": "Crossover",
+        "phase": "Elseworlds (2018–2019)",
+        "show": "CROSSOVER",
+        "note": "Barry & Oliver swap bodies · first appearance of Batwoman"
+      },
+      {
+        "id": "av_xo_6b",
+        "title": "⚡ Arrow S7E09 — \"Elseworlds, Part 2\"",
+        "year": 2018,
+        "type": "Crossover",
+        "phase": "Elseworlds (2018–2019)",
+        "show": "CROSSOVER",
+        "note": "Part 2 · visit to Gotham City"
+      },
+      {
+        "id": "av_xo_6c",
+        "title": "⚡ Supergirl S4E09 — \"Elseworlds, Part 3\"",
+        "year": 2018,
+        "type": "Crossover",
+        "phase": "Elseworlds (2018–2019)",
+        "show": "CROSSOVER",
+        "note": "Part 3 · conclusion · Monitor appears, teases Crisis"
+      },
+      {
+        "id": "av_34",
+        "title": "The Flash — Season 5, eps 10–22",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 13,
+        "show": "The Flash",
+        "note": "eps 10–22"
+      },
+      {
+        "id": "av_35",
+        "title": "Arrow — Season 7, eps 10–22",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 13,
+        "show": "Arrow",
+        "note": "eps 10–22"
+      },
+      {
+        "id": "av_36",
+        "title": "Supergirl — Season 4, eps 10–22",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 13,
+        "show": "Supergirl",
+        "note": "eps 10–22"
+      },
+      {
+        "id": "av_37",
+        "title": "DC's Legends of Tomorrow — Season 4, eps 9–16",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Elseworlds (2018–2019)",
+        "episodes": 8,
+        "show": "Legends",
+        "note": "eps 9–16"
+      },
+      {
+        "id": "av_38",
+        "title": "Arrow — Season 8, eps 1–7",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "episodes": 7,
+        "show": "Arrow",
+        "note": "eps 1–7 · Oliver's final season, every ep ties to Crisis"
+      },
+      {
+        "id": "av_39",
+        "title": "Batwoman — Season 1, eps 1–8",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "episodes": 8,
+        "show": "Batwoman",
+        "note": "eps 1–8 · new show, watch before Crisis"
+      },
+      {
+        "id": "av_40",
+        "title": "The Flash — Season 6, eps 1–8",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "episodes": 8,
+        "show": "The Flash",
+        "note": "eps 1–8 · Barry told he must die in Crisis"
+      },
+      {
+        "id": "av_41",
+        "title": "Supergirl — Season 5, eps 1–8",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "episodes": 8,
+        "show": "Supergirl",
+        "note": "eps 1–8"
+      },
+      {
+        "id": "av_42",
+        "title": "DC's Legends of Tomorrow — Season 5, ep 1",
+        "year": 2019,
+        "type": "Series",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "episodes": 1,
+        "show": "Legends",
+        "note": "ep 1 only — airs just before Crisis"
+      },
+      {
+        "id": "av_xo_7a",
+        "title": "⚡ Supergirl S5E09 — \"Crisis on Infinite Earths, Part 1\"",
+        "year": 2019,
+        "type": "Crossover",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "show": "CROSSOVER",
+        "note": "Earths begin dying · cameos from past DC shows"
+      },
+      {
+        "id": "av_xo_7b",
+        "title": "⚡ Batwoman S1E09 — \"Crisis on Infinite Earths, Part 2\"",
+        "year": 2019,
+        "type": "Crossover",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "show": "CROSSOVER",
+        "note": "Part 2 · Paragons revealed"
+      },
+      {
+        "id": "av_xo_7c",
+        "title": "⚡ The Flash S6E09 — \"Crisis on Infinite Earths, Part 3\"",
+        "year": 2019,
+        "type": "Crossover",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "show": "CROSSOVER",
+        "note": "Part 3 · Barry's fate · major death"
+      },
+      {
+        "id": "av_xo_7d",
+        "title": "⚡ Arrow S8E08 — \"Crisis on Infinite Earths, Part 4\"",
+        "year": 2020,
+        "type": "Crossover",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "show": "CROSSOVER",
+        "note": "Part 4 · Oliver's sacrifice (Jan 2020 — mid-season break)"
+      },
+      {
+        "id": "av_xo_7e",
+        "title": "⚡ Legends S5E01 — \"Crisis on Infinite Earths, Part 5\"",
+        "year": 2020,
+        "type": "Crossover",
+        "phase": "Crisis on Infinite Earths (2019–2020)",
+        "show": "CROSSOVER",
+        "note": "Part 5 · epilogue · Earth-Prime created"
+      },
+      {
+        "id": "av_43",
+        "title": "Arrow — Season 8, eps 9–10 (series finale)",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 2,
+        "show": "Arrow",
+        "note": "eps 9–10 · SERIES FINALE"
+      },
+      {
+        "id": "av_44",
+        "title": "The Flash — Season 6, eps 10–19",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 10,
+        "show": "The Flash",
+        "note": "eps 10–19 (shortened by COVID)"
+      },
+      {
+        "id": "av_45",
+        "title": "Supergirl — Season 5, eps 9–19",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 11,
+        "show": "Supergirl",
+        "note": "eps 9–19 (shortened by COVID)"
+      },
+      {
+        "id": "av_46",
+        "title": "Batwoman — Season 1, eps 9–20",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 12,
+        "show": "Batwoman",
+        "note": "eps 9–20 · original Kate Kane arc concludes"
+      },
+      {
+        "id": "av_47",
+        "title": "DC's Legends of Tomorrow — Season 5, eps 2–15",
+        "year": 2020,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 14,
+        "show": "Legends",
+        "note": "eps 2–15"
+      },
+      {
+        "id": "av_48",
+        "title": "The Flash — Season 7",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 18,
+        "show": "The Flash",
+        "note": "eps 1–18"
+      },
+      {
+        "id": "av_49",
+        "title": "Supergirl — Season 6 (final)",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 20,
+        "show": "Supergirl",
+        "note": "eps 1–20 · SERIES FINALE"
+      },
+      {
+        "id": "av_50",
+        "title": "Batwoman — Season 2",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 18,
+        "show": "Batwoman",
+        "note": "eps 1–18 · new Batwoman (Ryan Wilder)"
+      },
+      {
+        "id": "av_51",
+        "title": "DC's Legends of Tomorrow — Season 6",
+        "year": 2021,
+        "type": "Series",
+        "phase": "Earth-Prime (2020–2021)",
+        "episodes": 15,
+        "show": "Legends",
+        "note": "eps 1–15"
+      },
+      {
+        "id": "av_xo_8a",
+        "title": "⚡ The Flash S8E01 — \"Armageddon, Part 1\"",
+        "year": 2021,
+        "type": "Crossover",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "show": "CROSSOVER",
+        "note": "Despero arrives · Batwoman, Black Lightning, Atom guest"
+      },
+      {
+        "id": "av_xo_8b",
+        "title": "⚡ The Flash S8E02 — \"Armageddon, Part 2\"",
+        "year": 2021,
+        "type": "Crossover",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "show": "CROSSOVER",
+        "note": "Part 2"
+      },
+      {
+        "id": "av_xo_8c",
+        "title": "⚡ The Flash S8E03 — \"Armageddon, Part 3\"",
+        "year": 2021,
+        "type": "Crossover",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "show": "CROSSOVER",
+        "note": "Part 3 · Reverse Flash's Armageddon"
+      },
+      {
+        "id": "av_xo_8d",
+        "title": "⚡ The Flash S8E04 — \"Armageddon, Part 4\"",
+        "year": 2021,
+        "type": "Crossover",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "show": "CROSSOVER",
+        "note": "Part 4"
+      },
+      {
+        "id": "av_xo_8e",
+        "title": "⚡ The Flash S8E05 — \"Armageddon, Part 5\"",
+        "year": 2021,
+        "type": "Crossover",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "show": "CROSSOVER",
+        "note": "Part 5 · conclusion"
+      },
+      {
+        "id": "av_52",
+        "title": "The Flash — Season 8, eps 6–20",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "episodes": 15,
+        "show": "The Flash",
+        "note": "eps 6–20"
+      },
+      {
+        "id": "av_53",
+        "title": "Batwoman — Season 3 (final)",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "episodes": 13,
+        "show": "Batwoman",
+        "note": "eps 1–13 · SERIES FINALE"
+      },
+      {
+        "id": "av_54",
+        "title": "DC's Legends of Tomorrow — Season 7 (final)",
+        "year": 2022,
+        "type": "Series",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "episodes": 13,
+        "show": "Legends",
+        "note": "eps 1–13 · SERIES FINALE"
+      },
+      {
+        "id": "av_55",
+        "title": "The Flash — Season 9 (final)",
+        "year": 2023,
+        "type": "Series",
+        "phase": "Armageddon & Endgame (2021–2023)",
+        "episodes": 13,
+        "show": "The Flash",
+        "note": "eps 1–13 · SERIES FINALE"
+      }
+    ]
+  }
+}
