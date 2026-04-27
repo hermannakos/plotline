@@ -97,12 +97,17 @@ struct UniverseHeader: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            // Background gradient + faint hairline grid
-            LinearGradient(
-                colors: [universe.swiftUIColor.opacity(0.22), Theme.bgElev.opacity(0.0)],
-                startPoint: .topLeading, endPoint: .bottomTrailing
-            )
-            .background(Theme.bgElev)
+            // Inner card background
+            RoundedRectangle(cornerRadius: Theme.cardCornerLg - 1)
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            universe.swiftUIColor.opacity(0.22),
+                            Theme.bgElev
+                        ],
+                        center: .topLeading, startRadius: 0, endRadius: 360
+                    )
+                )
 
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(universe.short) · WATCH ORDER")
@@ -152,12 +157,34 @@ struct UniverseHeader: View {
             }
             .padding(20)
         }
-        .clipShape(RoundedRectangle(cornerRadius: Theme.cardCornerLg))
-        .overlay(
-            RoundedRectangle(cornerRadius: Theme.cardCornerLg).stroke(Theme.hairline, lineWidth: 1)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cardCornerLg - 1))
+        .padding(1)
+        .background(
+            LinearGradient(
+                colors: [
+                    universe.swiftUIColor.mix(with: .white, by: 0.1),
+                    universe.swiftUIColor,
+                    universe.swiftUIColor.opacity(0.4)
+                ],
+                startPoint: .topLeading, endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: Theme.cardCornerLg)
         )
+        .shadow(color: universe.swiftUIColor.opacity(0.33), radius: 18, y: 10)
+        .shadow(color: universe.swiftUIColor.opacity(0.26), radius: 60)
     }
 }
+
+private extension Color {
+    /// Linear-blend two colors in sRGB. Lightweight stand-in for `color-mix`.
+    func mix(with other: Color, by t: Double) -> Color {
+        let a = UIColor(self).cgColor.components ?? [0,0,0,1]
+        let b = UIColor(other).cgColor.components ?? [0,0,0,1]
+        func c(_ i: Int) -> Double { (a.indices.contains(i) ? Double(a[i]) : 0) * (1-t) + (b.indices.contains(i) ? Double(b[i]) : 0) * t }
+        return Color(red: c(0), green: c(1), blue: c(2))
+    }
+}
+
 
 private struct HeroStat: View {
     let n: Int
@@ -187,100 +214,52 @@ struct UpNextCard: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            // Inner card background
-            RoundedRectangle(cornerRadius: 17)
-                .fill(
-                    RadialGradient(
-                        colors: [Theme.neon.opacity(0.13), Color(red: 0.063, green: 0.059, blue: 0.047)],
-                        center: .topTrailing, startRadius: 0, endRadius: 320
-                    )
-                )
+        VStack(alignment: .leading, spacing: 0) {
+            Text("UP NEXT")
+                .font(.system(size: 10, weight: .bold))
+                .tracking(2)
+                .foregroundStyle(Theme.textDim)
 
-            // Decorative neon path in the corner
-            Canvas { ctx, s in
-                let path = Path { p in
-                    p.move(to: .init(x: s.width * 0.05, y: s.height * 0.85))
-                    p.addLine(to: .init(x: s.width * 0.30, y: s.height * 0.55))
-                    p.addLine(to: .init(x: s.width * 0.50, y: s.height * 0.70))
-                    p.addLine(to: .init(x: s.width * 0.65, y: s.height * 0.30))
-                    p.addLine(to: .init(x: s.width * 0.90, y: s.height * 0.12))
+            Text(entry.title)
+                .font(.system(size: 20, weight: .bold))
+                .tracking(-0.5)
+                .foregroundStyle(Theme.text)
+                .lineLimit(2)
+                .padding(.top, 8)
+
+            Text(subtitle)
+                .font(.system(size: 12))
+                .foregroundStyle(Theme.textDim)
+                .padding(.top, 4)
+
+            HStack(spacing: 8) {
+                Button(action: onMarkWatched) {
+                    Text("Mark watched")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(Theme.bg)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 11)
+                        .background(Theme.text, in: RoundedRectangle(cornerRadius: 12))
                 }
-                ctx.addFilter(.blur(radius: 6))
-                ctx.stroke(path, with: .color(Theme.neon.opacity(0.6)),
-                           style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round))
-                ctx.addFilter(.blur(radius: 0))
-                ctx.stroke(path, with: .linearGradient(
-                    Gradient(colors: [Theme.neonDeep, Theme.neonGlow]),
-                    startPoint: .init(x: 0, y: s.height), endPoint: .init(x: s.width, y: 0)
-                ), style: StrokeStyle(lineWidth: 3.5, lineCap: .round, lineJoin: .round))
-            }
-            .frame(width: 240, height: 120)
-            .opacity(0.55)
-            .offset(x: 30, y: -10)
+                .buttonStyle(.plain)
 
-            VStack(alignment: .leading, spacing: 0) {
-                Text("UP NEXT")
-                    .font(.system(size: 10, weight: .bold))
-                    .tracking(2)
-                    .foregroundStyle(Theme.neonGlow)
-
-                Text(episode != nil ? entry.title : entry.title)
-                    .font(.system(size: 20, weight: .bold))
-                    .tracking(-0.5)
-                    .foregroundStyle(Theme.text)
-                    .lineLimit(2)
-                    .padding(.top, 8)
-                    .padding(.trailing, 80) // leave room for the deco
-
-                Text(subtitle)
-                    .font(.system(size: 12))
-                    .foregroundStyle(Theme.textDim)
-                    .padding(.top, 4)
-
-                HStack(spacing: 8) {
-                    Button(action: onMarkWatched) {
-                        Text("Mark watched")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(Color(red: 0.094, green: 0.078, blue: 0.063))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 11)
-                            .background(
-                                LinearGradient(
-                                    colors: [Theme.neonGlow, Theme.neonDeep],
-                                    startPoint: .top, endPoint: .bottom
-                                ),
-                                in: RoundedRectangle(cornerRadius: 12)
-                            )
-                            .shadow(color: Theme.neon.opacity(0.65), radius: 10, y: 6)
-                    }
-                    .buttonStyle(.plain)
-
-                    Button(action: onJump) {
-                        Text("Jump to")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(Theme.text)
-                            .padding(.horizontal, 14).padding(.vertical, 11)
-                            .background(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.hairlineStrong, lineWidth: 1))
-                    }
-                    .buttonStyle(.plain)
+                Button(action: onJump) {
+                    Text("Jump to")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Theme.text)
+                        .padding(.horizontal, 14).padding(.vertical, 11)
+                        .background(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.hairlineStrong, lineWidth: 1))
                 }
-                .padding(.top, 14)
+                .buttonStyle(.plain)
             }
-            .padding(EdgeInsets(top: 16, leading: 16, bottom: 14, trailing: 16))
+            .padding(.top, 14)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 17))
-        .padding(1)
-        .background(
-            LinearGradient(
-                colors: [Theme.neonGlow, Theme.neonDeep, Theme.neon.opacity(0.4)],
-                startPoint: .topLeading, endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: Theme.cardCornerLg)
+        .padding(EdgeInsets(top: 16, leading: 16, bottom: 14, trailing: 16))
+        .background(Theme.surface, in: RoundedRectangle(cornerRadius: Theme.cardCornerLg))
+        .overlay(
+            RoundedRectangle(cornerRadius: Theme.cardCornerLg).stroke(Theme.hairlineStrong, lineWidth: 1)
         )
-        .shadow(color: Theme.neon.opacity(0.33), radius: 18, y: 10)
-        .shadow(color: Theme.neon.opacity(0.26), radius: 60)
     }
 }
 
