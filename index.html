@@ -10,391 +10,501 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0d0d0f;
-      --surface: #18181c;
-      --surface2: #222228;
-      --border: #2e2e38;
-      --text: #e8e8f0;
-      --muted: #888899;
-      --radius: 10px;
+      --bg: #08080b;
+      --bg-elev: #0e0e12;
+      --surface: #15151b;
+      --surface2: #1c1c24;
+      --hairline: rgba(255,255,255,0.06);
+      --hairline-strong: rgba(255,255,255,0.10);
+      --text: #f1f1f5;
+      --text-dim: #a0a0ad;
+      --muted: #6a6a78;
+      /* Plotline neon (matches icon + splash) */
+      --neon: oklch(0.82 0.16 70);
+      --neon-deep: oklch(0.72 0.17 55);
+      --neon-glow: oklch(0.85 0.14 75);
+      --radius: 14px;
+      --radius-lg: 18px;
     }
-    body {
+    html, body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
     }
-    #root { display: flex; flex-direction: column; min-height: 100vh; }
+    #root {
+      max-width: 720px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    /* ── Header ─────────────────────────────────────── */
-    .app-header {
-      padding: 28px 24px 0;
-      text-align: center;
+    /* ── Top bar ─────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px 8px;
     }
-    .app-header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800;
-      letter-spacing: -0.5px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
     }
-    .app-header p { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid var(--hairline);
+      background: var(--surface);
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+    .icon-btn:hover { color: var(--text); }
 
     /* ── Universe Tabs ───────────────────────────────── */
     .universe-tabs {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      padding: 24px 16px 0;
+      gap: 8px;
+      padding: 8px 16px 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .universe-tabs::-webkit-scrollbar { display: none; }
     .universe-tab {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
+      padding: 8px 14px 8px 10px;
       border-radius: 999px;
-      border: 2px solid var(--border);
+      border: 1px solid var(--hairline);
       background: var(--surface);
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: var(--text-dim);
+      font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.18s ease;
       white-space: nowrap;
-    }
-    .universe-tab:hover { border-color: #555; color: var(--text); }
-    .universe-tab {
-      /* Two-stop gradient: solid colored fill up to --tab-progress, base behind it. */
-      background:
-        linear-gradient(
-          to right,
-          color-mix(in srgb, var(--tab-color, #888) 22%, var(--surface)) 0%,
-          color-mix(in srgb, var(--tab-color, #888) 22%, var(--surface)) var(--tab-progress, 0%),
-          var(--surface) var(--tab-progress, 0%),
-          var(--surface) 100%
-        );
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
     .universe-tab.active {
       color: #fff;
       border-color: var(--tab-color, #888);
-      background:
-        linear-gradient(
-          to right,
-          color-mix(in srgb, var(--tab-color, #888) 42%, var(--surface)) 0%,
-          color-mix(in srgb, var(--tab-color, #888) 42%, var(--surface)) var(--tab-progress, 0%),
-          color-mix(in srgb, var(--tab-color, #888) 18%, var(--surface)) var(--tab-progress, 0%),
-          color-mix(in srgb, var(--tab-color, #888) 18%, var(--surface)) 100%
-        );
-      box-shadow: 0 0 14px color-mix(in srgb, var(--tab-color, #888) 35%, transparent);
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--tab-color, #888) 22%, transparent),
+        color-mix(in srgb, var(--tab-color, #888) 11%, transparent)
+      );
+      box-shadow:
+        0 0 0 3px color-mix(in srgb, var(--tab-color, #888) 14%, transparent),
+        0 6px 18px -8px color-mix(in srgb, var(--tab-color, #888) 55%, transparent);
     }
-    .tab-emoji { font-size: 1.1rem; }
+    .ring {
+      position: relative;
+      width: 18px; height: 18px;
+      display: grid;
+      place-items: center;
+    }
+    .ring svg {
+      position: absolute; inset: 0;
+      transform: rotate(-90deg);
+    }
+    .tab-emoji { font-size: 11px; line-height: 1; }
 
-    /* ── Progress Bar ────────────────────────────────── */
-    .progress-bar-wrap {
-      max-width: 700px;
-      margin: 18px auto 0;
-      padding: 0 16px;
+    /* ── Hero ────────────────────────────────────────── */
+    .hero {
+      margin: 4px 16px 14px;
+      padding: 20px 20px 18px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(120% 100% at 0% 0%,
+        color-mix(in srgb, var(--u-color, #888) 22%, transparent) 0%,
+        var(--bg-elev) 55%);
+      border: 1px solid var(--hairline);
+      position: relative;
+      overflow: hidden;
     }
-    .progress-bar-row {
+    .hero-grid {
+      position: absolute; inset: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      color: var(--u-color, #fff);
+      text-transform: uppercase;
+    }
+    .hero-title {
+      margin-top: 6px;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.6px;
+      line-height: 1.1;
+    }
+    .hero-progress-row {
+      margin-top: 18px;
       display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 6px;
+      align-items: baseline;
+      gap: 8px;
     }
-    .progress-bar-track {
+    .hero-pct {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+    }
+    .hero-pct-label {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .hero-bar {
+      margin-top: 10px;
       height: 6px;
       border-radius: 3px;
-      background: var(--border);
+      background: rgba(255,255,255,0.06);
       overflow: hidden;
     }
-    .progress-bar-fill {
+    .hero-bar-fill {
       height: 100%;
       border-radius: 3px;
+      background: linear-gradient(90deg, var(--u-color), color-mix(in srgb, var(--u-color) 80%, transparent));
+      box-shadow: 0 0 12px color-mix(in srgb, var(--u-color) 40%, transparent);
       transition: width 0.4s ease;
     }
-
-    /* ── Stats Row ───────────────────────────────────── */
-    .stats-row {
+    .hero-stats {
+      margin-top: 14px;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 16px 16px 0;
+      gap: 18px;
+      font-size: 12px;
+      color: var(--text-dim);
     }
-    .stat-pill {
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-    .stat-pill strong { color: var(--text); }
-
-    /* ── Phase Groups ────────────────────────────────── */
-    .content { padding: 24px 16px 60px; max-width: 960px; margin: 0 auto; width: 100%; }
-    .phase-group { margin-bottom: 32px; }
-    .phase-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .phase-title {
-      font-size: 0.8rem;
+    .hero-stats .n {
+      color: var(--text);
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--muted);
-    }
-    .phase-line { flex: 1; height: 1px; background: var(--border); }
-    .phase-count {
-      font-size: 0.75rem;
-      color: var(--muted);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
-
-    /* ── Entry Card ──────────────────────────────────── */
-    .entries-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 10px;
-    }
-    .entry-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 14px 14px;
-      border-radius: var(--radius);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      position: relative;
-    }
-    .entry-card:hover {
-      border-color: #444;
-      background: var(--surface2);
-      transform: translateY(-1px);
-    }
-    .entry-card.watched {
-      opacity: 0.55;
-    }
-    .entry-card.watched .entry-title { text-decoration: line-through; }
-    .entry-card.crossover {
-      border-color: color-mix(in srgb, var(--universe-accent, #FFD700) 40%, var(--border));
-      background: color-mix(in srgb, var(--universe-accent, #FFD700) 5%, var(--surface));
-    }
-    .entry-check {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-      transition: all 0.15s ease;
-    }
-    .entry-card.watched .entry-check {
-      background: var(--universe-color, #888);
-      border-color: var(--universe-color, #888);
-    }
-    .checkmark { font-size: 11px; color: #fff; }
-    .entry-body { flex: 1; min-width: 0; }
-    .entry-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      line-height: 1.35;
-      margin-bottom: 5px;
-    }
-    .entry-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      align-items: center;
-    }
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .badge-year { background: var(--surface2); color: var(--muted); }
-    .badge-movie { background: #1a3a6e33; color: #7aabff; }
-    .badge-series { background: #1a4d3e33; color: #7affd4; }
-    .badge-crossover { background: color-mix(in srgb, var(--universe-accent, #FFD700) 20%, transparent); color: var(--universe-accent, #FFD700); }
-    .badge-show { font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-    .entry-note { font-size: 0.72rem; color: var(--muted); margin-top: 4px; font-style: italic; }
-    .entry-episodes { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-
-    /* ── Episode Breakdown ───────────────────────────── */
-    .entry-title-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-      margin-bottom: 5px;
-    }
-    .entry-title-row .entry-title { flex: 1; margin-bottom: 0; }
-    .expand-btn {
-      background: none;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 0.65rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      line-height: 1.4;
-      transition: all 0.15s ease;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .expand-btn:hover { color: var(--text); border-color: #555; }
-    .ep-progress {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-    .ep-progress-bar {
-      height: 3px;
-      border-radius: 2px;
-      background: var(--border);
-      overflow: hidden;
-      margin-top: 4px;
-    }
-    .ep-progress-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: var(--universe-color, #888);
-      transition: width 0.3s ease;
-    }
-    .episode-list {
-      margin-top: 10px;
-      border-top: 1px solid var(--border);
-      padding-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .episode-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 6px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.12s ease;
-    }
-    .episode-item:hover { background: var(--border); }
-    .episode-item.ep-watched { opacity: 0.55; }
-    .episode-item.ep-watched .episode-label { text-decoration: line-through; }
-    .episode-check {
-      width: 15px;
-      height: 15px;
-      min-width: 15px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-    .episode-check.ep-done {
-      background: var(--universe-color, #888);
-      border-color: var(--universe-color, #888);
-    }
-    .ep-checkmark { font-size: 8px; color: #fff; }
-    .episode-label { font-size: 0.78rem; color: var(--text); }
-
-    /* ── Footer ──────────────────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      border-top: 1px solid var(--border);
-      margin-top: auto;
+      font-size: 13px;
+      margin-right: 5px;
     }
 
     /* ── Up Next ─────────────────────────────────────── */
-    .up-next-wrap {
-      max-width: 700px;
-      margin: 16px auto 0;
-      padding: 0 16px;
+    .up-next-wrap { padding: 0 16px 18px; }
+    .up-next-frame {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 1px;
+      background: linear-gradient(135deg, var(--neon-glow), var(--neon-deep) 60%, color-mix(in srgb, var(--neon) 40%, transparent));
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--neon-deep) 33%, transparent),
+        0 18px 40px -16px color-mix(in srgb, var(--neon) 33%, transparent),
+        0 0 60px -10px color-mix(in srgb, var(--neon) 26%, transparent);
     }
     .up-next-card {
-      background: var(--surface);
-      border: 1px solid color-mix(in srgb, var(--universe-color, #888) 40%, var(--border));
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      border-radius: 17px;
+      padding: 16px 16px 14px;
+      background: radial-gradient(120% 130% at 100% 0%,
+        color-mix(in srgb, var(--neon) 13%, transparent) 0%, #100f0c 60%);
+      overflow: hidden;
+      position: relative;
+    }
+    .up-next-deco {
+      position: absolute;
+      right: -30px; top: -10px;
+      width: 240px; height: 120px;
+      opacity: 0.55;
+      pointer-events: none;
     }
     .up-next-label {
-      font-size: 0.68rem;
+      font-size: 10px;
       font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--neon-glow);
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--universe-color, #888);
-      white-space: nowrap;
-    }
-    .up-next-info {
-      flex: 1;
-      min-width: 0;
     }
     .up-next-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      max-width: 70%;
+      position: relative;
     }
     .up-next-sub {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 2px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-dim);
     }
     .up-next-actions {
       display: flex;
       gap: 8px;
-      flex-shrink: 0;
+      margin-top: 14px;
+      position: relative;
     }
-    .up-next-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: none;
+    .up-next-primary {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(180deg, var(--neon-glow), var(--neon-deep));
+      color: #181410;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--neon) 67%, transparent);
+    }
+    .up-next-primary:hover { filter: brightness(1.05); }
+    .up-next-secondary {
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--hairline-strong);
+      background: rgba(255,255,255,0.04);
       color: var(--text);
-      font-size: 0.78rem;
+      font: inherit;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
     }
-    .up-next-btn:hover { background: var(--surface2); border-color: #555; }
-    .up-next-btn.primary {
-      background: color-mix(in srgb, var(--universe-color, #888) 20%, var(--surface));
-      border-color: var(--universe-color, #888);
-      color: #fff;
+    .up-next-secondary:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── Phase header ────────────────────────────────── */
+    .content { padding: 0 16px 80px; flex: 1; }
+    .phase-group { margin-bottom: 4px; }
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 4px 10px;
     }
-    .up-next-btn.primary:hover {
-      background: color-mix(in srgb, var(--universe-color, #888) 35%, var(--surface));
+    .phase-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--u-color, var(--text));
+      text-transform: uppercase;
+    }
+    .phase-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--u-color, #888) 33%, transparent), transparent);
+    }
+    .phase-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--hairline);
+      background: var(--surface);
     }
 
-    /* ── Responsive ──────────────────────────────────── */
+    /* ── Entry rail + card ───────────────────────────── */
+    .entry-row {
+      display: flex;
+      gap: 14px;
+      align-items: stretch;
+      position: relative;
+    }
+    .rail {
+      position: relative;
+      width: 22px;
+      flex-shrink: 0;
+    }
+    .rail-line {
+      position: absolute;
+      left: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--u-color, #888) 33%, transparent), var(--hairline));
+      opacity: 0.6;
+    }
+    .rail-node {
+      position: absolute;
+      left: 3px;
+      top: 18px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--bg);
+      border: 2px solid color-mix(in srgb, var(--u-color, #888) 40%, transparent);
+      display: grid;
+      place-items: center;
+      transition: all 0.15s ease;
+    }
+    .rail-node.done {
+      background: var(--u-color, #888);
+      border-color: var(--u-color, #888);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--u-color, #888) 53%, transparent);
+    }
+    .entry-card {
+      flex: 1;
+      margin-bottom: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--hairline-strong);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.15s ease;
+    }
+    .entry-card:hover { background: var(--surface2); }
+    .entry-card.watched {
+      background: rgba(255,255,255,0.02);
+      border-color: var(--hairline);
+    }
+    .entry-card.crossover {
+      border-color: color-mix(in srgb, var(--u-accent, #FFD700) 40%, var(--hairline-strong));
+      background: color-mix(in srgb, var(--u-accent, #FFD700) 5%, var(--surface));
+    }
+    .entry-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.2px;
+      line-height: 1.35;
+    }
+    .entry-card.watched .entry-title {
+      color: var(--muted);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,255,255,0.2);
+    }
+    .entry-meta {
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .entry-meta .year { font-size: 11.5px; color: var(--muted); }
+    .entry-meta .dot {
+      width: 3px; height: 3px; border-radius: 999px;
+      background: var(--muted);
+    }
+    .badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .badge-movie { background: rgba(122,171,255,0.10); color: #9bbcff; }
+    .badge-series { background: rgba(122,255,212,0.10); color: #7affd4; }
+    .badge-crossover {
+      background: color-mix(in srgb, var(--u-accent, #FFD700) 22%, transparent);
+      color: var(--u-accent, #FFD700);
+    }
+    .badge-show { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+    .ep-count { font-size: 11.5px; color: var(--text-dim); }
+
+    .ep-bar {
+      margin-top: 8px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .ep-bar-fill {
+      height: 100%;
+      background: var(--u-color, #888);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--u-color, #888) 53%, transparent);
+      transition: width 0.3s ease;
+    }
+    .entry-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* Title row + expand button (for series) */
+    .entry-title-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .entry-title-row .entry-title { flex: 1; }
+    .expand-btn {
+      background: none;
+      border: 1px solid var(--hairline);
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-weight: 600;
+    }
+    .expand-btn:hover { color: var(--text); border-color: var(--hairline-strong); }
+
+    /* Episode list */
+    .episode-list {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+      gap: 4px;
+    }
+    .ep-tile {
+      display: grid;
+      place-items: center;
+      min-height: 30px;
+      border-radius: 6px;
+      background: var(--surface2);
+      border: 1px solid var(--hairline);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+    .ep-tile:hover { border-color: var(--hairline-strong); }
+    .ep-tile.done {
+      background: color-mix(in srgb, var(--u-color, #888) 25%, transparent);
+      border-color: var(--u-color, #888);
+      color: var(--text);
+    }
+
+    /* Bottom tab bar */
+    .tabbar {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid var(--hairline);
+      background: rgba(8,8,11,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 10px 8px max(16px, env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: space-around;
+      z-index: 50;
+    }
+    .tabbar-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 14px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .tabbar-btn.active { color: var(--neon-glow); }
+
+    /* Responsive */
     @media (max-width: 500px) {
-      .entries-grid { grid-template-columns: 1fr; }
-      .universe-tab { padding: 8px 12px; font-size: 0.82rem; }
-      .up-next-card { flex-wrap: wrap; gap: 10px; }
-      .up-next-actions { width: 100%; gap: 8px; }
-      .up-next-btn { flex: 1; text-align: center; }
+      .universe-tab { padding: 7px 12px 7px 8px; font-size: 12px; }
+      .hero-pct { font-size: 32px; }
+      .hero-title { font-size: 22px; }
     }
   </style>
 </head>
@@ -403,117 +513,200 @@
 <script type="text/babel">
 const { useState, useEffect, useMemo, useCallback } = React;
 
-/* ── Helpers ────────────────────────────────────────────────────── */
+/* ── Helpers ─────────────────────────────────────────── */
 function groupByPhase(entries) {
   const map = new Map();
-  for (const entry of entries) {
-    if (!map.has(entry.phase)) map.set(entry.phase, []);
-    map.get(entry.phase).push(entry);
+  for (const e of entries) {
+    if (!map.has(e.phase)) map.set(e.phase, []);
+    map.get(e.phase).push(e);
   }
   return map;
 }
-
 function loadWatched(uid) {
   try {
     const raw = localStorage.getItem(`plotline_watched_${uid}`);
     return raw ? new Set(JSON.parse(raw)) : new Set();
   } catch { return new Set(); }
 }
-
 function saveWatched(uid, set) {
-  try {
-    localStorage.setItem(`plotline_watched_${uid}`, JSON.stringify([...set]));
-  } catch {}
+  try { localStorage.setItem(`plotline_watched_${uid}`, JSON.stringify([...set])); } catch {}
 }
-
-/* ── Episode helpers ────────────────────────────────────────────── */
-function isSeriesWatched(entryId, episodes, watchedSet) {
-  for (let i = 1; i <= episodes; i++) {
-    if (!watchedSet.has(`${entryId}_ep_${i}`)) return false;
-  }
+function isSeriesWatched(id, eps, set) {
+  for (let i = 1; i <= eps; i++) if (!set.has(`${id}_ep_${i}`)) return false;
   return true;
 }
-
-function countWatchedEpisodes(entryId, episodes, watchedSet) {
-  let count = 0;
-  for (let i = 1; i <= episodes; i++) {
-    if (watchedSet.has(`${entryId}_ep_${i}`)) count++;
-  }
-  return count;
+function countWatchedEpisodes(id, eps, set) {
+  let c = 0;
+  for (let i = 1; i <= eps; i++) if (set.has(`${id}_ep_${i}`)) c++;
+  return c;
 }
-
-/* ── Up Next helper ─────────────────────────────────────────────── */
-function getUpNext(entries, watchedSet) {
-  for (const entry of entries) {
-    if (entry.type === "Series" && entry.episodes > 0) {
-      if (!isSeriesWatched(entry.id, entry.episodes, watchedSet)) {
-        for (let i = 1; i <= entry.episodes; i++) {
-          if (!watchedSet.has(`${entry.id}_ep_${i}`)) {
-            return { entry, episode: i };
-          }
+function getUpNext(entries, set) {
+  for (const e of entries) {
+    if (e.type === "Series" && e.episodes > 0) {
+      if (!isSeriesWatched(e.id, e.episodes, set)) {
+        for (let i = 1; i <= e.episodes; i++) {
+          if (!set.has(`${e.id}_ep_${i}`)) return { entry: e, episode: i };
         }
       }
-    } else {
-      if (!watchedSet.has(entry.id)) {
-        return { entry, episode: null };
-      }
+    } else if (!set.has(e.id)) {
+      return { entry: e, episode: null };
     }
   }
   return null;
 }
 
-/* ── UpNextCard ─────────────────────────────────────────────────── */
-function UpNextCard({ upNext, universe, onMarkWatched, onJumpTo }) {
-  if (!upNext) return null;
-  const { entry, episode } = upNext;
-  const cssVars = { "--universe-color": universe.color };
-  const sub = episode != null
-    ? `Episode ${episode} of ${entry.episodes}`
-    : entry.year;
+/* ── Plotline mark (small) ───────────────────────────── */
+function PlotlineMark({ size = 22 }) {
+  const PTS = [[220,760],[380,560],[560,640],[620,420],[800,300]];
+  const d = PTS.reduce((a,[x,y],i)=>a+(i===0?`M${x},${y}`:` L${x},${y}`),'');
   return (
-    <div className="up-next-wrap">
-      <div className="up-next-card" style={cssVars}>
-        <span className="up-next-label">Up Next</span>
-        <div className="up-next-info">
-          <div className="up-next-title">{entry.title}</div>
-          <div className="up-next-sub">{sub}</div>
+    <svg viewBox="0 0 1024 1024" width={size} height={size} aria-hidden>
+      <defs>
+        <linearGradient id="mark-stroke" x1="0" x2="1" y1="1" y2="0">
+          <stop offset="0%" stopColor="oklch(0.72 0.17 55)" />
+          <stop offset="100%" stopColor="oklch(0.85 0.14 75)" />
+        </linearGradient>
+        <filter id="mark-glow"><feGaussianBlur stdDeviation="22" /></filter>
+      </defs>
+      <path d={d} stroke="oklch(0.82 0.16 70)" strokeWidth="80" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.5" filter="url(#mark-glow)" />
+      <path d={d} stroke="url(#mark-stroke)" strokeWidth="56" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      {PTS.map(([x,y],i)=>{
+        const last = i===PTS.length-1;
+        return (
+          <g key={i}>
+            <circle cx={x} cy={y} r={last?96:62} fill="#0a0a0d" stroke="url(#mark-stroke)" strokeWidth="46" />
+            {last && <circle cx={x} cy={y} r="34" fill="oklch(0.85 0.14 75)" />}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* ── Top bar ─────────────────────────────────────────── */
+function TopBar() {
+  return (
+    <div className="topbar">
+      <div className="brand">
+        <PlotlineMark size={22} />
+        <span>Plotline</span>
+      </div>
+      <a className="icon-btn" href="https://github.com/hermannakos/plotline" aria-label="GitHub" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.96c-3.2.7-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.13v3.16c0 .31.21.68.8.56C20.21 21.39 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+      </a>
+    </div>
+  );
+}
+
+/* ── Universe tabs ───────────────────────────────────── */
+function UniverseTabs({ universes, activeId, onPick, tabProgress }) {
+  return (
+    <div className="universe-tabs">
+      {Object.values(universes).map(u => {
+        const active = u.id === activeId;
+        const pct = tabProgress[u.id] ?? 0;
+        const C = 2 * Math.PI * 7;
+        return (
+          <button
+            key={u.id}
+            className={`universe-tab${active ? " active" : ""}`}
+            style={{ "--tab-color": u.color }}
+            onClick={() => onPick(u.id)}
+          >
+            <span className="ring">
+              <svg width="18" height="18" viewBox="0 0 18 18">
+                <circle cx="9" cy="9" r="7" stroke={active ? `${u.color}44` : "rgba(255,255,255,0.10)"} strokeWidth="2" fill="none" />
+                <circle cx="9" cy="9" r="7" stroke={u.color} strokeWidth="2" fill="none"
+                  strokeDasharray={C}
+                  strokeDashoffset={C * (1 - pct/100)}
+                  strokeLinecap="round" />
+              </svg>
+              <span className="tab-emoji">{u.emoji}</span>
+            </span>
+            <span>{u.short}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+function UniverseHero({ universe, done, total, movies, series, crossovers }) {
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  return (
+    <div className="hero" style={{ "--u-color": universe.color }}>
+      <svg className="hero-grid" width="100%" height="100%">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <line key={i} x1={`${(i+1) * 12.5}%`} y1="0" x2={`${(i+1) * 12.5}%`} y2="100%" stroke="#fff" />
+        ))}
+      </svg>
+      <div style={{ position: 'relative' }}>
+        <div className="hero-eyebrow">{universe.short} · Watch order</div>
+        <div className="hero-title">{universe.name}</div>
+
+        <div className="hero-progress-row">
+          <span className="hero-pct">{pct}%</span>
+          <span className="hero-pct-label">{done} of {total} watched</span>
         </div>
-        <div className="up-next-actions">
-          <button
-            className="up-next-btn primary"
-            onClick={onMarkWatched}
-            title="Mark as watched"
-          >
-            ✓ Watched
-          </button>
-          <button
-            className="up-next-btn"
-            onClick={onJumpTo}
-            title="Jump to this item in the list"
-          >
-            ↓ Jump
-          </button>
+        <div className="hero-bar">
+          <div className="hero-bar-fill" style={{ width: `${pct}%` }} />
+        </div>
+
+        <div className="hero-stats">
+          {movies > 0 && <span><span className="n">{movies}</span>Movies</span>}
+          {series > 0 && <span><span className="n">{series}</span>Series</span>}
+          {crossovers > 0 && <span><span className="n">{crossovers}</span>Crossover{crossovers === 1 ? '' : 's'}</span>}
         </div>
       </div>
     </div>
   );
 }
 
-/* ── EntryCard ──────────────────────────────────────────────────── */
-function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, shouldExpand }) {
-  const [expanded, setExpanded] = useState(false);
+/* ── Up Next ─────────────────────────────────────────── */
+function UpNextCard({ upNext, universe, onMarkWatched, onJumpTo }) {
+  if (!upNext) return null;
+  const { entry, episode } = upNext;
+  const sub = episode != null
+    ? `Episode ${episode} of ${entry.episodes}`
+    : entry.year;
+  return (
+    <div className="up-next-wrap">
+      <div className="up-next-frame">
+        <div className="up-next-card">
+          <svg className="up-next-deco" viewBox="0 0 400 120">
+            <defs>
+              <linearGradient id="upn-line" x1="0" x2="1" y1="1" y2="0">
+                <stop offset="0%" stopColor="oklch(0.72 0.17 55)" />
+                <stop offset="100%" stopColor="oklch(0.85 0.14 75)" />
+              </linearGradient>
+              <filter id="upn-glow"><feGaussianBlur stdDeviation="6" /></filter>
+            </defs>
+            <path d="M20,90 L120,55 L200,75 L260,30 L360,12" stroke="oklch(0.82 0.16 70)" strokeWidth="14" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#upn-glow)" opacity="0.6" />
+            <path d="M20,90 L120,55 L200,75 L260,30 L360,12" stroke="url(#upn-line)" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="360" cy="12" r="6" fill="oklch(0.85 0.14 75)" />
+          </svg>
+          <div className="up-next-label">Up Next</div>
+          <div className="up-next-title">{entry.title}</div>
+          <div className="up-next-sub">{sub}</div>
+          <div className="up-next-actions">
+            <button className="up-next-primary" onClick={onMarkWatched}>Mark watched</button>
+            <button className="up-next-secondary" onClick={onJumpTo}>Jump to</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  useEffect(() => {
-    if (shouldExpand) setExpanded(true);
-  }, [shouldExpand]);
+/* ── EntryCard ───────────────────────────────────────── */
+function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, shouldExpand, isFirst, isLast }) {
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => { if (shouldExpand) setExpanded(true); }, [shouldExpand]);
+
   const isCrossover = entry.type === "Crossover";
   const hasEpisodes = entry.type === "Series" && entry.episodes > 0;
   const showColor = universe.showColors?.[entry.show] ?? universe.color;
-  const cssVars = {
-    "--universe-color":  universe.color,
-    "--universe-accent": universe.accent,
-  };
-
   const watched = hasEpisodes
     ? isSeriesWatched(entry.id, entry.episodes, watchedSet)
     : watchedSet.has(entry.id);
@@ -521,56 +714,64 @@ function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, sho
     ? countWatchedEpisodes(entry.id, entry.episodes, watchedSet)
     : 0;
 
+  const cssVars = {
+    "--u-color": universe.color,
+    "--u-accent": universe.accent,
+  };
+
   const handleCardClick = (e) => {
     if (e.target.closest(".expand-btn") || e.target.closest(".episode-list")) return;
     onToggle(entry);
   };
 
-  const handleExpandClick = (e) => {
-    e.stopPropagation();
-    setExpanded(prev => !prev);
-  };
-
   return (
-    <div
-      id={`entry-${entry.id}`}
-      className={`entry-card${watched ? " watched" : ""}${isCrossover ? " crossover" : ""}`}
-      style={cssVars}
-      onClick={handleCardClick}
-      title={watched ? "Mark as unwatched" : "Mark as watched"}
-    >
-      <div className="entry-check">
-        {watched && <span className="checkmark">✓</span>}
+    <div id={`entry-${entry.id}`} className="entry-row" style={cssVars}>
+      <div className="rail">
+        <div className="rail-line" style={{
+          top: isFirst ? '22px' : 0,
+          bottom: isLast ? '50%' : 0,
+        }} />
+        <div className={`rail-node${watched ? " done" : ""}`}>
+          {watched && (
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#0a0a0d" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 5.5 L4.2 7.5 L8 3" />
+            </svg>
+          )}
+        </div>
       </div>
-      <div className="entry-body">
+      <div
+        className={`entry-card${watched ? " watched" : ""}${isCrossover ? " crossover" : ""}`}
+        onClick={handleCardClick}
+        title={watched ? "Mark as unwatched" : "Mark as watched"}
+      >
         <div className={hasEpisodes ? "entry-title-row" : ""}>
           <div className="entry-title">{entry.title}</div>
           {hasEpisodes && (
-            <button
-              className="expand-btn"
-              onClick={handleExpandClick}
-              title={expanded ? "Collapse episodes" : "Show episodes"}
-            >
+            <button className="expand-btn" onClick={(e) => { e.stopPropagation(); setExpanded(p => !p); }}>
               {expanded ? "▲" : "▼"}
             </button>
           )}
         </div>
         <div className="entry-meta">
-          <span className="badge badge-year">{entry.year}</span>
-          {entry.type === "Movie"    && <span className="badge badge-movie">Movie</span>}
-          {entry.type === "Series"   && <span className="badge badge-series">Series</span>}
-          {isCrossover               && <span className="badge badge-crossover" style={{ "--universe-accent": universe.accent }}>Crossover</span>}
+          <span className="year">{entry.year}</span>
+          <span className="dot" />
+          {entry.type === "Movie"     && <span className="badge badge-movie">Movie</span>}
+          {entry.type === "Series"    && <span className="badge badge-series">Series</span>}
+          {isCrossover                && <span className="badge badge-crossover">Crossover</span>}
           {entry.show && entry.show !== "CROSSOVER" && (
             <span className="badge badge-show" style={{ background: showColor + "33", color: showColor }}>{entry.show}</span>
           )}
+          {hasEpisodes && (
+            <>
+              <span className="dot" />
+              <span className="ep-count">{watchedEpCount}/{entry.episodes} eps</span>
+            </>
+          )}
         </div>
         {hasEpisodes && (
-          <>
-            <div className="ep-progress">{watchedEpCount} / {entry.episodes} episodes</div>
-            <div className="ep-progress-bar">
-              <div className="ep-progress-fill" style={{ width: `${Math.round((watchedEpCount / entry.episodes) * 100)}%` }} />
-            </div>
-          </>
+          <div className="ep-bar">
+            <div className="ep-bar-fill" style={{ width: `${Math.round((watchedEpCount/entry.episodes)*100)}%` }} />
+          </div>
         )}
         {entry.note && <div className="entry-note">{entry.note}</div>}
         {expanded && hasEpisodes && (
@@ -580,14 +781,9 @@ function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, sho
               return (
                 <div
                   key={epNum}
-                  className={`episode-item${epWatched ? " ep-watched" : ""}`}
+                  className={`ep-tile${epWatched ? " done" : ""}`}
                   onClick={() => onToggleEpisode(entry.id, epNum)}
-                >
-                  <div className={`episode-check${epWatched ? " ep-done" : ""}`} style={cssVars}>
-                    {epWatched && <span className="ep-checkmark">✓</span>}
-                  </div>
-                  <span className="episode-label">Episode {epNum}</span>
-                </div>
+                >{epNum}</div>
               );
             })}
           </div>
@@ -597,7 +793,7 @@ function EntryCard({ entry, universe, watchedSet, onToggle, onToggleEpisode, sho
   );
 }
 
-/* ── App ────────────────────────────────────────────────────────── */
+/* ── App ─────────────────────────────────────────────── */
 function App() {
   const [universes, setUniverses] = useState(null);
   const [loadError, setLoadError] = useState(null);
@@ -622,7 +818,6 @@ function App() {
   const entries  = universe?.entries ?? [];
   const phases   = useMemo(() => groupByPhase(entries), [entries]);
 
-  // Per-universe % complete, used to draw a fill on each tab pill.
   const tabProgress = useMemo(() => {
     if (!universes) return {};
     const m = {};
@@ -638,7 +833,7 @@ function App() {
     return m;
   }, [universes, watchedMap]);
 
-  const total    = entries.length;
+  const total = entries.length;
   const doneCount = useMemo(() =>
     entries.filter(e =>
       e.type === "Series" && e.episodes
@@ -646,10 +841,9 @@ function App() {
         : watched.has(e.id)
     ).length,
   [entries, watched]);
-  const pct      = total === 0 ? 0 : Math.round((doneCount / total) * 100);
 
-  const movies   = entries.filter(e => e.type === "Movie").length;
-  const series   = entries.filter(e => e.type === "Series").length;
+  const movies     = entries.filter(e => e.type === "Movie").length;
+  const series     = entries.filter(e => e.type === "Series").length;
   const crossovers = entries.filter(e => e.type === "Crossover").length;
 
   const upNext = useMemo(() => getUpNext(entries, watched), [entries, watched]);
@@ -658,10 +852,10 @@ function App() {
     setWatchedMap(prev => {
       const set = new Set(prev[activeId]);
       if (entry.type === "Series" && entry.episodes) {
-        const allWatched = isSeriesWatched(entry.id, entry.episodes, set);
+        const allW = isSeriesWatched(entry.id, entry.episodes, set);
         for (let i = 1; i <= entry.episodes; i++) {
           const epId = `${entry.id}_ep_${i}`;
-          if (allWatched) set.delete(epId); else set.add(epId);
+          if (allW) set.delete(epId); else set.add(epId);
         }
       } else {
         if (set.has(entry.id)) set.delete(entry.id); else set.add(entry.id);
@@ -683,19 +877,16 @@ function App() {
 
   const handleUpNextWatched = useCallback(() => {
     if (!upNext) return;
-    if (upNext.episode != null) {
-      toggleEpisode(upNext.entry.id, upNext.episode);
-    } else {
-      toggle(upNext.entry);
-    }
+    if (upNext.episode != null) toggleEpisode(upNext.entry.id, upNext.episode);
+    else toggle(upNext.entry);
   }, [upNext, toggle, toggleEpisode]);
 
   const handleUpNextJump = useCallback(() => {
     if (!upNext) return;
     const el = document.getElementById(`entry-${upNext.entry.id}`);
     if (el) {
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      el.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
     }
     if (upNext.episode != null) setJumpExpandId(upNext.entry.id);
   }, [upNext]);
@@ -705,67 +896,37 @@ function App() {
 
   return (
     <>
-      <div className="app-header">
-        <h1>🎬 Plotline</h1>
-        <p>Your cinematic universe watch order tracker</p>
-      </div>
-
-      {/* Universe tabs */}
-      <div className="universe-tabs">
-        {Object.values(universes).map(u => (
-          <button
-            key={u.id}
-            className={`universe-tab${activeId === u.id ? " active" : ""}`}
-            style={{ "--tab-color": u.color, "--tab-progress": `${tabProgress[u.id] ?? 0}%` }}
-            onClick={() => { setActiveId(u.id); setJumpExpandId(null); }}
-          >
-            <span className="tab-emoji">{u.emoji}</span>
-            <span>{u.short}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Progress */}
-      <div className="progress-bar-wrap">
-        <div className="progress-bar-row">
-          <span>{universe.name}</span>
-          <span>{doneCount} / {total} watched ({pct}%)</span>
-        </div>
-        <div className="progress-bar-track">
-          <div
-            className="progress-bar-fill"
-            style={{ width: `${pct}%`, background: universe.color }}
-          />
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="stats-row">
-        {movies    > 0 && <div className="stat-pill">🎬 <strong>{movies}</strong> movies</div>}
-        {series    > 0 && <div className="stat-pill">📺 <strong>{series}</strong> series</div>}
-        {crossovers> 0 && <div className="stat-pill">⚡ <strong>{crossovers}</strong> crossovers</div>}
-        <div className="stat-pill">✅ <strong>{doneCount}</strong> watched</div>
-      </div>
-
-      {/* Up Next */}
+      <TopBar />
+      <UniverseTabs
+        universes={universes}
+        activeId={activeId}
+        tabProgress={tabProgress}
+        onPick={(id) => { setActiveId(id); setJumpExpandId(null); }}
+      />
+      <UniverseHero
+        universe={universe}
+        done={doneCount}
+        total={total}
+        movies={movies}
+        series={series}
+        crossovers={crossovers}
+      />
       <UpNextCard
         upNext={upNext}
         universe={universe}
         onMarkWatched={handleUpNextWatched}
         onJumpTo={handleUpNextJump}
       />
-
-      {/* Phase groups */}
       <div className="content">
-        {[...phases.entries()].map(([phase, entries]) => (
-          <div className="phase-group" key={phase}>
+        {[...phases.entries()].map(([phase, ents]) => (
+          <div className="phase-group" key={phase} style={{ "--u-color": universe.color }}>
             <div className="phase-header">
               <span className="phase-title">{phase}</span>
               <div className="phase-line" />
-              <span className="phase-count">{entries.length}</span>
+              <span className="phase-count">{ents.length}</span>
             </div>
-            <div className="entries-grid">
-              {entries.map(entry => (
+            <div>
+              {ents.map((entry, i) => (
                 <EntryCard
                   key={entry.id}
                   entry={entry}
@@ -774,16 +935,14 @@ function App() {
                   onToggle={toggle}
                   onToggleEpisode={toggleEpisode}
                   shouldExpand={jumpExpandId === entry.id}
+                  isFirst={i === 0}
+                  isLast={i === ents.length - 1}
                 />
               ))}
             </div>
           </div>
         ))}
       </div>
-
-      <footer>
-        Built with ❤️ · <a href="https://github.com/hermannakos/plotline" style={{ color: "inherit" }}>GitHub</a>
-      </footer>
     </>
   );
 }
