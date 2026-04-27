@@ -1,107 +1,197 @@
 // SplashView.swift — Plotline launch animation
 //
-// Visual goal: trace the app icon — five circle nodes connected by an
-// orange polyline that climbs from lower-left to upper-right, with the
-// final node rendered as a bullseye, then the wordmark fades in below.
+// Visual goal: trace the neon path from the icon into life with the same
+// glow language as PlotlineMark — outer halo, gradient stroke, bullseye
+// pulse. Wordmark uses the in-app Theme tracking so the splash feels like
+// the first frame of the home screen, not a separate brand moment.
 
 import SwiftUI
 
 struct SplashView: View {
     @State private var drawProgress: CGFloat = 0
-    @State private var nodeReveal: Int = 0          // number of nodes shown
-    @State private var bullseyeScale: CGFloat = 0
+    @State private var glowOpacity: Double = 0
+    @State private var nodeReveal: Int = 0
+    @State private var bullseyePulse: CGFloat = 0
+    @State private var bullseyeRing: CGFloat = 0
     @State private var wordOpacity: Double = 0
+    @State private var wordOffset: CGFloat = 8
+    @State private var vignettePulse: Double = 0
 
-    // Normalized inside a square chart area, matching the icon layout.
+    // Path matches PlotlineMark exactly so the splash and the in-app mark are
+    // pixel-aligned; the user reads them as one continuous identity.
     private let points: [CGPoint] = [
-        .init(x: 0.18, y: 0.74),
-        .init(x: 0.36, y: 0.55),
-        .init(x: 0.52, y: 0.65),
-        .init(x: 0.68, y: 0.40),
-        .init(x: 0.84, y: 0.26)
+        .init(x: 0.215, y: 0.742),
+        .init(x: 0.371, y: 0.547),
+        .init(x: 0.547, y: 0.625),
+        .init(x: 0.605, y: 0.410),
+        .init(x: 0.781, y: 0.293)
     ]
-
-    private let lineColor = Color(red: 0xCC/255.0, green: 0x50/255.0, blue: 0x00/255.0)   // #CC5000 — sampled from icon
-    private let nodeFill  = Color(red: 0xF0/255.0, green: 0xE8/255.0, blue: 0xD8/255.0)   // #F0E8D8 — sampled from icon
 
     var body: some View {
         GeometryReader { geo in
-            let side = min(geo.size.width, geo.size.height) * 0.62
-            let stroke = side * 0.045
-            let nodeSize = side * 0.10
-            let bullseyeRing = side * 0.16
-            let bullseyeDot = side * 0.06
+            let side = min(geo.size.width, geo.size.height) * 0.58
+            let stroke = side * 0.052
+            let nodeSize = side * 0.085
+            let bullseyeOuter = side * 0.18
+            let bullseyeDot = side * 0.07
 
             ZStack {
+                // Deep radial background, matches the home screen scrim.
                 RadialGradient(
-                    colors: [Color(white: 0.10), Color(white: 0.03)],
-                    center: .top, startRadius: 0, endRadius: geo.size.height
+                    colors: [
+                        Color(red: 0.07, green: 0.07, blue: 0.085),
+                        Color(red: 0.02, green: 0.02, blue: 0.03)
+                    ],
+                    center: .center, startRadius: 40, endRadius: max(geo.size.width, geo.size.height)
                 )
                 .ignoresSafeArea()
 
-                // ── Icon trace ──────────────────────────────────────────
+                // Soft neon halo behind the mark — pulses with the bullseye.
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Theme.neon.opacity(0.22 + vignettePulse * 0.10),
+                                .clear
+                            ],
+                            center: .center, startRadius: 0, endRadius: side * 0.7
+                        )
+                    )
+                    .frame(width: side * 1.6, height: side * 1.6)
+                    .position(x: geo.size.width / 2, y: geo.size.height * 0.42)
+                    .blendMode(.plusLighter)
+
+                // ── Mark ────────────────────────────────────────────
                 ZStack {
+                    // Outer glow stroke — same trick as PlotlineMark.
                     PolylineShape(normalizedPoints: points)
                         .trim(from: 0, to: drawProgress)
                         .stroke(
-                            lineColor,
+                            Theme.neon.opacity(0.55),
+                            style: StrokeStyle(lineWidth: stroke * 1.7, lineCap: .round, lineJoin: .round)
+                        )
+                        .blur(radius: side * 0.05)
+                        .opacity(glowOpacity)
+
+                    // Main gradient stroke
+                    PolylineShape(normalizedPoints: points)
+                        .trim(from: 0, to: drawProgress)
+                        .stroke(
+                            LinearGradient(
+                                colors: [Theme.neonDeep, Theme.neonGlow],
+                                startPoint: .bottomLeading, endPoint: .topTrailing
+                            ),
                             style: StrokeStyle(lineWidth: stroke, lineCap: .round, lineJoin: .round)
                         )
 
+                    // Nodes
                     ForEach(Array(points.enumerated()), id: \.offset) { idx, pt in
                         let isLast = idx == points.count - 1
                         let visible = idx < nodeReveal
-                        let size = isLast ? bullseyeRing : nodeSize
+                        let size = isLast ? bullseyeOuter : nodeSize
 
                         ZStack {
-                            Circle().fill(nodeFill)
-                            Circle().stroke(lineColor, lineWidth: stroke * 0.65)
                             if isLast {
+                                // Bullseye target — outer ring expands on reveal
                                 Circle()
-                                    .fill(lineColor)
+                                    .stroke(Theme.neon.opacity(0.4), lineWidth: stroke * 0.45)
+                                    .frame(width: size * (1 + bullseyeRing * 0.6),
+                                           height: size * (1 + bullseyeRing * 0.6))
+                                    .opacity(1 - Double(bullseyeRing) * 0.7)
+                                Circle()
+                                    .fill(Theme.bg)
+                                    .frame(width: size, height: size)
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [Theme.neonDeep, Theme.neonGlow],
+                                            startPoint: .topLeading, endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: stroke * 0.55
+                                    )
+                                    .frame(width: size, height: size)
+                                Circle()
+                                    .fill(
+                                        RadialGradient(
+                                            colors: [Theme.neonGlow, Theme.neon],
+                                            center: .center, startRadius: 0, endRadius: bullseyeDot
+                                        )
+                                    )
                                     .frame(width: bullseyeDot, height: bullseyeDot)
-                                    .scaleEffect(bullseyeScale)
+                                    .scaleEffect(0.7 + bullseyePulse * 0.3)
+                                    .shadow(color: Theme.neon.opacity(0.7), radius: 6 + bullseyePulse * 4)
+                            } else {
+                                Circle()
+                                    .fill(Theme.bg)
+                                    .frame(width: size, height: size)
+                                Circle()
+                                    .stroke(Theme.neon, lineWidth: stroke * 0.55)
+                                    .frame(width: size, height: size)
+                                    .shadow(color: Theme.neon.opacity(0.6), radius: 4)
                             }
                         }
-                        .frame(width: size, height: size)
                         .position(x: pt.x * side, y: pt.y * side)
-                        .scaleEffect(visible ? 1 : 0)
+                        .scaleEffect(visible ? 1 : 0.2)
                         .opacity(visible ? 1 : 0)
                     }
                 }
                 .frame(width: side, height: side)
                 .position(x: geo.size.width / 2, y: geo.size.height * 0.42)
 
-                // ── Wordmark ────────────────────────────────────────────
-                VStack(spacing: 8) {
+                // ── Wordmark ────────────────────────────────────────
+                VStack(spacing: 10) {
                     Text("Plotline")
-                        .font(.system(size: 42, weight: .bold))
-                        .tracking(-1)
+                        .font(.system(size: 44, weight: .bold))
+                        .tracking(-1.2)
+                        .foregroundStyle(Theme.text)
                     Text("WATCH IN ORDER")
-                        .font(.system(size: 12, weight: .medium))
-                        .tracking(2)
-                        .foregroundStyle(.secondary)
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(3)
+                        .foregroundStyle(Theme.neon.opacity(0.8))
                 }
                 .opacity(wordOpacity)
-                .position(x: geo.size.width / 2, y: geo.size.height * 0.72)
+                .offset(y: wordOffset)
+                .position(x: geo.size.width / 2, y: geo.size.height * 0.74)
             }
             .task { await runAnimation() }
         }
     }
 
     private func runAnimation() async {
-        // Line traces in over 1.0s; nodes pop in roughly as the line reaches each one.
-        withAnimation(.easeOut(duration: 1.0)) { drawProgress = 1 }
-        try? await Task.sleep(for: .milliseconds(60))
-        for i in 1...points.count {
-            withAnimation(.spring(response: 0.42, dampingFraction: 0.62)) {
+        // 1. Glow blooms in just ahead of the line.
+        withAnimation(.easeOut(duration: 0.25)) { glowOpacity = 1 }
+
+        // 2. Line traces.
+        withAnimation(.easeInOut(duration: 1.0)) { drawProgress = 1 }
+        try? await Task.sleep(for: .milliseconds(80))
+
+        // 3. Nodes pop as the line passes them.
+        for i in 1...points.count - 1 {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.62)) {
                 nodeReveal = i
             }
-            try? await Task.sleep(for: .milliseconds(190))
+            try? await Task.sleep(for: .milliseconds(180))
         }
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.55)) { bullseyeScale = 1 }
-        try? await Task.sleep(for: .milliseconds(150))
-        withAnimation(.easeOut(duration: 0.5)) { wordOpacity = 1 }
+
+        // 4. Bullseye lands with a ring pulse.
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.6)) {
+            nodeReveal = points.count
+        }
+        try? await Task.sleep(for: .milliseconds(80))
+        withAnimation(.easeOut(duration: 0.7)) { bullseyeRing = 1 }
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.55)) { bullseyePulse = 1 }
+
+        // 5. Halo continues to breathe softly.
+        withAnimation(.easeInOut(duration: 1.4).repeatForever(autoreverses: true)) {
+            vignettePulse = 1
+        }
+
+        // 6. Wordmark.
+        try? await Task.sleep(for: .milliseconds(180))
+        withAnimation(.easeOut(duration: 0.55)) {
+            wordOpacity = 1
+            wordOffset = 0
+        }
     }
 }
 
